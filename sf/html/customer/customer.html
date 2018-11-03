@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../plugin/layui/css/layui.css"/>
+	</head>
+	<body>
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+    			<button class="layui-btn layui-btn-sm" lay-event="update">修改</button>
+    			<button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+  			</div>
+		</script>
+		
+		<table id="customerTb" lay-filter="test"></table>
+		
+		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="../../plugin/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use('table', function(){
+				var table = layui.table;
+				//第一个实例
+				table.render({
+					elem: '#customerTb'
+			    	,toolbar: '#toolbarDemo'
+			    	,height: 'full-0'
+			    	,url: 'http://localhost:8080/customer/all' //数据接口
+			    	,page: true //开启分页
+			    	,cols: [[ //表头
+			    		{field: 'id', title: 'ID', type:'checkbox'}
+			    		,{field: 'code', title: '用户编码', width:100, align:'center'}
+			      		,{field: 'name', title: '用户名称', width:100, align:'center'}
+			      		,{field: 'idNumber', title: '身份证号', width:200, align:'center'}
+			      		,{field: 'one', title: '分公司', width:80, align:'center'}
+			      		,{field: 'two', title: '热力站', width:80, align:'center'} 
+			      		,{field: 'three', title: '区域', width: 177, align:'center'}
+			      		,{field: 'addressPrefix', title: '大楼', width: 80, align:'center'}
+			      		,{field: 'address', title: '地址', width: 80, align:'center'}
+			    	]]
+				    ,parseData: function(res){
+				    	return {
+				    		"code":res.code, 
+				    		"msg":res.msg,
+							"count": res.data.total, //解析数据长度
+							"data": res.data.list //解析数据列表
+				    	}
+				    }
+				});
+				
+				//监听事件
+				table.on('toolbar()', function(obj){
+					switch(obj.event){
+					    case 'add':
+					    	add();
+					    break;
+					    case 'delete':
+					      layer.msg('删除');
+					    break;
+					    case 'update':
+					      layer.msg('编辑');
+					    break;
+				  	};
+				});
+			});
+			
+			function add() {
+				layer.open({
+				    type: 2,
+				    area: ['700px', '500px'],
+				    content: 'addForm.html', //注意，如果str是object，那么需要字符拼接。
+				    /*btn: ['保存'],
+				    btn1: function(index, layero) {
+				    	var formObj = layer.getChildFrame("form", index);
+				    	
+				    	console.info(formObj);
+				    	//layer.close(index);
+				    }*/
+				  });
+				/*$.post('addForm.html', {}, function(str){
+				  
+				});*/
+			}
+		</script>
+		
+		
+	</body>
+</html>

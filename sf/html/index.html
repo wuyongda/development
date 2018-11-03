@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<style type="text/css">
+		html,body{
+			height: 100%;
+		}
+		.layout{
+		    border: 1px solid #d7dde4;
+		    background: #f5f7f9;
+		    position: relative;
+		    border-radius: 4px;
+		    overflow: hidden;
+		    height: 100%;
+		}
+		.layout-logo{
+		    width: 200px;
+		    height: 30px;
+		    /*background: #5b6270;*/
+		    border-radius: 3px;
+		    float: left;
+		    position: relative;
+		    top: 5px;
+		    left: 10px;
+		    font-size: large;
+		    color: white;
+		}
+		.layout-nav{
+		    width: 420px;
+		    margin: 0 auto;
+		    margin-right: 20px;
+		    height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="app" style="height: 100%">
+		<div class="layout">
+	        <layout style="height: 100%;">
+	            <i-header>
+	                <i-menu mode="horizontal" theme="dark" active-name="1">
+	                    <div class="layout-logo">{{companyName}}</div>
+	                    <div class="layout-nav">
+	                        <menu-item name="1">
+	                            <icon type="ios-navigate"></icon>
+	                            Item 1
+	                        </menu-item>
+	                        <menu-item name="2">
+	                            <icon type="ios-keypad"></icon>
+	                            Item 2
+	                        </menu-item>
+	                        <menu-item name="3">
+	                            <icon type="ios-analytics"></icon>
+	                            Item 3
+	                        </menu-item>
+	                        <menu-item name="4">
+	                            <icon type="ios-paper"></icon>
+	                            Item 4
+	                        </menu-item>
+	                    </div>
+	                </i-menu>
+	            </i-header>
+	            <layout style="height: 100%;">
+	                <sider hide-trigger :style="{background: '#fff',overflow: 'scroll'}">
+	                	<i-menu active-name="" theme="light" width="auto" :open-names="['1']" @on-select="openMenu">
+	                        <submenu v-for="(menu,i) in menus" :name="i">
+	                            <template slot="title">
+	                                <icon :type="menu.icon"></icon>
+	                                {{menu.name}}
+	                            </template>
+	                            <menu-item v-for="m in menu.children" :name="m.url">{{m.name}}</menu-item>
+	                        </submenu>
+	                    </i-menu>	
+	                </sider>
+	                <layout :style="{padding: '0 18px 18px'}">
+	                    <breadcrumb :style="{margin: '18px 0'}">
+	                        <breadcrumb-item>Home</breadcrumb-item>
+	                        <breadcrumb-item>Components</breadcrumb-item>
+	                        <breadcrumb-item>Layout</breadcrumb-item>
+	                    </breadcrumb>
+	                    <i-content :style="{padding: '0px', minHeight: '280px', background: '#fff',height: '100%'}">
+	                        <!--<iframe ref="menuFrame" src="" width="100%" height="100%" ></iframe>-->
+	                        <div style="height: 100%;width: 100%;" v-html="pageHtml"></div>
+	                    </i-content>
+	                </layout>
+	            </layout>
+	        </layout>
+		</div>
+	</div>
+	<script src="../plugin/jquery-3.3.1.min.js"></script>
+	<script>
+	    new Vue({
+	        el: "#app",
+	        data: {
+	        	companyName: "", // XXX市XXX有限公司
+	            pageHtml:'<span style="color:blue">Warning</span>',
+	            menus:[{
+	            	id: 1,
+	            	icon: "ios-navigate",
+	            	name:"一级目录1",
+	            	too: "user",
+	            	children:[{
+	            		id: 11,
+	            		icon: "ios-navigate",
+	            		name:"目录1-1",
+	            		url:"https://www.baidu.com"
+	            	},{
+	            		id: 12,
+	            		icon: "ios-navigate",
+	            		name:"目录1-2",
+	            		url:"https://www.163.com"
+	            	},{
+	            		icon: "ios-navigate",
+	            		name:"目录1-3"
+	            	}]
+	            },{
+	            	icon: "ios-keypad",
+	            	name:"一级目录2",
+	            	children:[{
+	            		icon: "ios-navigate",
+	            		name:"交费"
+	            	},{
+	            		icon: "ios-navigate",
+	            		name:"挂账"
+	            	}]
+	            }]
+	        },
+	        methods: {
+	            openMenu: function (name) {
+	            	//alert(this.$refs.name);
+	            	//var src = $("#" + name).attr("src");
+	            	//this.$refs.menuFrame.src = "https://www.163.com";
+	            	//$("#menuFrame").attr("src", src);
+	            	//this.pageHtml = '<span style="color:red">Warning</span>';
+	            	/*$("#contentHtml").load("customer/test.html");
+	            	new Vue({
+	            		el: '#contentHtml',
+	            		data: {}
+	            	});*/
+	            	$.ajax({
+	            		type:"get",
+	            		url:"customer/list.html",
+	            		async:true,
+	            		dataType:"text",
+	            		success: function(data) {
+	            			alert(123);
+	            			this.pageHtml = data;
+	            			//console.info(data);
+	            		}
+	            	});
+	            	
+	            }
+	        }
+	    })
+	    
+	 </script>
+</body>
+</html>

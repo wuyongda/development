@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>系统登录</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<Row>
+			<i-col span="6" offset="9">
+			<i-form style="text-align: center">
+				<form-item prop="user">
+					<i-input type="text" placeholder="请输入用户名...">
+						<icon type="ios-person-outline" slot="prepend"></icon>
+					</i-input>
+				</form-item>
+				<form-item prop="password">
+					<i-input type="text" placeholder="请输入密码...">
+						<icon type="ios-lock-outline" slot="prepend"></icon>
+					</i-input>
+				</form-item>
+				<i-button type="primary" @click="login">登录</i-button>
+				<i-button>重置</i-button>
+				
+			</i-from>	
+			</i-col>
+		</Row>
+	</div>
+	<script>
+	    new Vue({
+	        el: '#app',
+	        data: {
+	            visible: false
+	        },
+	        methods: {
+	            login: function () {
+	            	location.href="./html/index.html";
+	            	/*$.ajax({
+	            		type:"get",
+	            		url:"",
+	            		async:true,
+	            		success: function() {
+	            			
+	            		}
+	            	});*/
+	            }
+	        }
+	    })
+	 </script>
+</body>
+</html>

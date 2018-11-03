@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<!--<link rel="stylesheet" type="text/css" href="../../plugin/layui/css/layui.css"/>-->
+		<link rel="stylesheet" href="../../plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+		<style type="text/css">
+			.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+		</style>
+	</head>
+	<body class="">
+		<ul id="treeDemo" class="ztree"></ul>
+		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="../../plugin/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.all.min.js" type="text/javascript"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.exedit.min.js" type="text/javascript"></script>
+		<script>
+			$(function() {
+				zTreeObj = $.fn.zTree.init($("#treeDemo"), setting);
+				var rootNode = {
+					name:"公司组织结构",
+					isParent :true
+				};
+				zTreeObj.addNodes(null, rootNode);
+			});
+			
+			var setting = {
+				async: {
+					enable: true,
+					url: "http://localhost:8080/org/tree",
+					autoParam: ["id", "name=n", "level=lv"],
+					otherParam: {
+						"otherParam": "zTreeAsyncTest"
+					},
+				},
+				view: {
+					addHoverDom: addHoverDom,
+					removeHoverDom: removeHoverDom,
+					selectedMulti: false
+				},
+				edit: {
+					enable: true,
+					renameTitle: "编辑",
+					removeTitle: "删除"
+				}
+			};
+
+			/**
+			 * 组装-拼接新增按钮
+			 * @param {Object} treeId
+			 * @param {Object} treeNode
+			 */
+			function addHoverDom(treeId, treeNode) {
+				var aObj = $("#" + treeNode.tId + "_span");
+				if($("#addBtn_" + treeNode.id).length > 0) return;
+				var addStr = "<span id='addBtn_" + treeNode.id + "' class='button add' title='新增' onfocus='this.blur();'></span>";
+				aObj.append(addStr);
+				var btn = $("#addBtn_" + treeNode.id);
+				if(btn) btn.bind("click", function() {
+					addOrgNode(); // 调用新增组织机构节点
+				});
+			};
+
+			/**
+			 * 组装-移除新增按钮
+			 * @param {Object} treeId
+			 * @param {Object} treeNode
+			 */
+			function removeHoverDom(treeId, treeNode) {
+				$("#addBtn_" + treeNode.tId).unbind().remove();
+			};
+
+			function addOrgNode() {
+				
+			}
+		</script>
+	</body>
+</html>

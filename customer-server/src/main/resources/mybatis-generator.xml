@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <context id="mysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+  
+  	<commentGenerator>
+		<property name="suppressAllComments" value="true"/>
+	</commentGenerator>
+	
+  	<!-- driverClass:访问数据库的JDBC驱动程序的完全限定类名 -->
+  	<!-- connectionURL:访问数据库的JDBC连接URL -->
+  	<!-- userId:访问数据库的用户ID -->
+  	<!-- password:访问数据库的密码 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/charge"
+        userId="root"
+        password="root">
+    </jdbcConnection>
+
+	<!-- 强制DECIMAL和NUMERIC类型的字段转换为Java类型的java.math.BigDecimal,默认值为false -->
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="true" />
+    </javaTypeResolver>
+
+	<!-- 生成实体模型 -->
+    <javaModelGenerator targetPackage="com.customer.bean" targetProject="src\main\java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+	<!-- 生成mapper文件 -->
+    <sqlMapGenerator targetPackage="com.customer.bean"  targetProject="src\main\java">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+	
+	<!-- 生成dao层接口 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.customer.bean"  targetProject="src\main\java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+	<!-- 需要反向生成的表 -->
+    <table tableName="Customer" domainObjectName="Customer" >
+    </table>
+  </context>
+</generatorConfiguration>

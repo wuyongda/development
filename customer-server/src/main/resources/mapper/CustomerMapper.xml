@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.customer.dao.ICustomerMapper">
+  <resultMap id="BaseResultMap" type="com.customer.bean.Customer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="tel_no" jdbcType="VARCHAR" property="telNo" />
+    <result column="mob_no" jdbcType="VARCHAR" property="mobNo" />
+    <result column="one" jdbcType="VARCHAR" property="one" />
+    <result column="one_code" jdbcType="VARCHAR" property="oneCode" />
+    <result column="two" jdbcType="VARCHAR" property="two" />
+    <result column="two_code" jdbcType="VARCHAR" property="twoCode" />
+    <result column="three" jdbcType="VARCHAR" property="three" />
+    <result column="three_code" jdbcType="VARCHAR" property="threeCode" />
+    <result column="address_prefix" jdbcType="VARCHAR" property="addressPrefix" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="yhlx" jdbcType="VARCHAR" property="yhlx" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.customer.bean.Customer">
+    insert into customer (id, code, name, 
+      id_number, tel_no, mob_no, 
+      one, one_code, two, 
+      two_code, three, three_code, 
+      address_prefix, address, yhlx
+      )
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{telNo,jdbcType=VARCHAR}, #{mobNo,jdbcType=VARCHAR}, 
+      #{one,jdbcType=VARCHAR}, #{oneCode,jdbcType=VARCHAR}, #{two,jdbcType=VARCHAR}, 
+      #{twoCode,jdbcType=VARCHAR}, #{three,jdbcType=VARCHAR}, #{threeCode,jdbcType=VARCHAR}, 
+      #{addressPrefix,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{yhlx,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.customer.bean.Customer">
+    update customer
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      tel_no = #{telNo,jdbcType=VARCHAR},
+      mob_no = #{mobNo,jdbcType=VARCHAR},
+      one = #{one,jdbcType=VARCHAR},
+      one_code = #{oneCode,jdbcType=VARCHAR},
+      two = #{two,jdbcType=VARCHAR},
+      two_code = #{twoCode,jdbcType=VARCHAR},
+      three = #{three,jdbcType=VARCHAR},
+      three_code = #{threeCode,jdbcType=VARCHAR},
+      address_prefix = #{addressPrefix,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      yhlx = #{yhlx,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, code, name, id_number, tel_no, mob_no, one, one_code, two, two_code, three, 
+    three_code, address_prefix, address, yhlx
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, code, name, id_number, tel_no, mob_no, one, one_code, two, two_code, three, 
+    three_code, address_prefix, address, yhlx
+    from customer
+  </select>
+</mapper>

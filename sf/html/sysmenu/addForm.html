@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../plugin/layui/css/layui.css">
+	</head>
+	<body>
+		<form class="layui-form" action="" style="padding-top:20px;padding-right: 30px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">菜单名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="name" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">菜单地址</label>
+				<div class="layui-input-block">
+					<input type="text" name="url" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">父级菜单</label>
+				<div class="layui-input-block">
+					<select id="parentId" name="parentId" lay-verify="required">
+						<option value=""></option>
+						
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">单选框</label>
+				<div class="layui-input-block">
+					<input type="radio" name="type" value="0" title="分类菜单">
+					<input type="radio" name="type" value="1" title="导航菜单" checked>
+					<input type="radio" name="type" value="2" title="按钮">
+				</div>
+			</div>
+			
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-block">
+					<textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="../../plugin/layui/layui.all.js"></script>
+		<script type="text/javascript">
+			layui.use('form', function(){
+				var form = layui.form;
+				//监听提交
+				form.on('submit(formDemo)', function(data){
+					layer.msg(JSON.stringify(data.field));
+			    	return false;
+			  	});
+			  
+			  	$.ajax({
+			  		type: "post",
+			  		url: "http://localhost:8080/sysMenu",
+			  		async: true,
+			  		data: {
+			  			parentId: 0
+			  		},
+			  		success: function(data) {
+			  			if(data.code == "0000") {
+			  				var selectObj = $("#parentId");
+			  				$.each(data.data, function(i, menu) {
+			  					$('<option value="'+ menu.id +'">'+ menu.name +'</option>').appendTo(selectObj);
+			  				});
+			  				form.render("select");
+			  			}
+			  		}
+			  	});
+			});
+		</script>
+	</body>
+</html>
