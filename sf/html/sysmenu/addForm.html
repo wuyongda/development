@@ -7,33 +7,34 @@
 		<link rel="stylesheet" href="../../plugin/layui/css/layui.css">
 	</head>
 	<body>
-		<form class="layui-form" action="" style="padding-top:20px;padding-right: 30px;">
+		<form class="layui-form" lay-filter="test" style="padding-top:20px;padding-right: 30px;">
+			<input type="hidden" name="id"/>
 			<div class="layui-form-item">
 				<label class="layui-form-label">菜单名称</label>
 				<div class="layui-input-block">
-					<input type="text" name="name" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+					<input type="text" name="name" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">菜单地址</label>
 				<div class="layui-input-block">
-					<input type="text" name="url" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+					<input type="text" name="url" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">父级菜单</label>
 				<div class="layui-input-block">
-					<select id="parentId" name="parentId" lay-verify="required">
-						<option value=""></option>
+					<select id="parentId" name="parentId">
+						<option value="0">无</option>
 						
 					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">单选框</label>
+				<label class="layui-form-label">菜单类型</label>
 				<div class="layui-input-block">
 					<input type="radio" name="type" value="0" title="分类菜单">
-					<input type="radio" name="type" value="1" title="导航菜单" checked>
+					<input type="radio" name="type" value="1" title="导航菜单" checked="">
 					<input type="radio" name="type" value="2" title="按钮">
 				</div>
 			</div>
@@ -46,7 +47,7 @@
 			</div>
 			<div class="layui-form-item">
 				<div class="layui-input-block">
-					<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					<button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
 					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 				</div>
 			</div>
@@ -57,8 +58,24 @@
 			layui.use('form', function(){
 				var form = layui.form;
 				//监听提交
-				form.on('submit(formDemo)', function(data){
-					layer.msg(JSON.stringify(data.field));
+				form.on('submit(formSubmit)', function(data){
+					layer.load();
+					$.ajax({
+						type:"post",
+						url:"http://localhost:8080/sysMenu/save",
+						data:data.field,
+						async:true,
+						success: function(data) {
+							if(data.code == "0000") {
+								var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+								parent.layer.close(index);
+								parent.layer.msg('成功')
+							} else {
+								parent.layer.msg(data.msg)
+							}
+							layer.closeAll('loading');
+						}
+					});
 			    	return false;
 			  	});
 			  
@@ -80,6 +97,7 @@
 			  		}
 			  	});
 			});
+			
 		</script>
 	</body>
 </html>
