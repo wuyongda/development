@@ -13,6 +13,7 @@ import com.product.sysmenu.bean.SysMenuDTO;
 import com.product.sysmenu.bean.TreeNode;
 import com.product.sysmenu.dao.ISysMenuMapper;
 import com.product.sysmenu.service.ISysMenuService;
+import com.product.util.KeyGeneratorUtil;
 
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
@@ -25,7 +26,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     	List<SysMenu> sysMenus = sysMenuMapper.selectList(dto);
     	
     	List<TreeNode<SysMenu>> treeNodes = new ArrayList<TreeNode<SysMenu>>();
-    	Map<Integer, TreeNode<SysMenu>> treeMap = new HashMap<Integer, TreeNode<SysMenu>>();
+    	Map<Long, TreeNode<SysMenu>> treeMap = new HashMap<Long, TreeNode<SysMenu>>();
     	
     	for (SysMenu sysMenu : sysMenus) {
     		this.initTree(sysMenu, treeMap, treeNodes);
@@ -41,7 +42,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @param treeNodes
      * @return
      */
-	private void initTree(SysMenu sysMenu, Map<Integer, TreeNode<SysMenu>> treeMap, List<TreeNode<SysMenu>> treeNodes) {
+	private void initTree(SysMenu sysMenu, Map<Long, TreeNode<SysMenu>> treeMap, List<TreeNode<SysMenu>> treeNodes) {
 		
 		TreeNode<SysMenu> treeNode = new TreeNode<SysMenu>();
 		treeNode.setNode(sysMenu);
@@ -71,5 +72,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
 		dto.setSysMenu(sysMenu);
 		return sysMenuMapper.selectList(dto);
 	}
+
+    @Override
+    public int save(SysMenu sysMenu) {
+        sysMenu.setId(KeyGeneratorUtil.getNextLong());
+        return sysMenuMapper.insert(sysMenu);
+    }
 
 }

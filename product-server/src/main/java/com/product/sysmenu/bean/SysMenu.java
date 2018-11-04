@@ -1,25 +1,46 @@
 package com.product.sysmenu.bean;
 
 public class SysMenu {
-    private Integer id;
+    /**
+     * 主键
+     */
+    private Long id;
 
+    /**
+     * 菜单名称
+     */
     private String name;
 
+    /**
+     * 菜单图标
+     */
     private String icon;
 
-    private Integer parentId;
+    /**
+     * 父级主键
+     */
+    private Long parentId;
 
+    /**
+     * 菜单访问路径
+     */
     private String url;
 
+    /**
+     * 备注
+     */
     private String remark;
 
+    /**
+     * 菜单类型:0-分类菜单，1-导航菜单，3-按钮
+     */
     private Integer type;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,11 +60,11 @@ public class SysMenu {
         this.icon = icon == null ? null : icon.trim();
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

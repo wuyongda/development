@@ -22,4 +22,11 @@ public interface ISysMenuService {
      */
 	List<SysMenu> selectSysMenu(SysMenu sysMenu);
 
+	/**
+	 * 保存导航菜单
+	 * @param sysMenu
+	 * @return
+	 */
+    int save(SysMenu sysMenu);
+
 }

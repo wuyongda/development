@@ -4,11 +4,11 @@ import com.product.sysmenu.bean.SysMenu;
 import java.util.List;
 
 public interface SysMenuMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SysMenu record);
 
-    SysMenu selectByPrimaryKey(Integer id);
+    SysMenu selectByPrimaryKey(Long id);
 
     List<SysMenu> selectAll();
 

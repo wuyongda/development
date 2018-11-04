@@ -50,4 +50,16 @@ public class SysMenuController {
         List<SysMenu> sysMenus = sysMenuService.selectSysMenu(sysMenu);
         return Result.success(sysMenus);
     }
+    
+    /**
+     * 保存导航菜单信息
+     * @param sysMenu
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/sysMenu/save")
+    public Result<Long> save(SysMenu sysMenu) {
+        int i = sysMenuService.save(sysMenu);
+        return Result.success(sysMenu.getId());
+    }
 }
