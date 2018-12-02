@@ -62,7 +62,7 @@
 					layer.load();
 					$.ajax({
 						type:"post",
-						url:"http://localhost:8080/sysMenu/save",
+						url:"/sysMenu/save",
 						data:data.field,
 						async:true,
 						success: function(data) {
@@ -81,7 +81,7 @@
 			  
 			  	$.ajax({
 			  		type: "post",
-			  		url: "http://localhost:8080/sysMenu",
+			  		url: "/sysMenu",
 			  		async: true,
 			  		data: {
 			  			parentId: 0
