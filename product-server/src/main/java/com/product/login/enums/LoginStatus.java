@@ -3,7 +3,10 @@ package com.product.login.enums;
 import com.product.interfaces.IResultStatus;
 
 public enum LoginStatus implements IResultStatus{
-    ERROR("0001","用户名或密码不正确")
+    LOGIN("0000","登录成功"),
+    LOGOUT("0001","注销成功"),
+    NOT_LOGIN("0002","未登录"),
+    ERROR("0002","用户名或密码不正确")
     ;
     private String code;
     private String msg;
