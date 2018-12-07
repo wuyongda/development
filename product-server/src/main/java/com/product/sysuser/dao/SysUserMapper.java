@@ -4,11 +4,11 @@ import com.product.sysuser.bean.SysUser;
 import java.util.List;
 
 public interface SysUserMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SysUser record);
 
-    SysUser selectByPrimaryKey(Integer id);
+    SysUser selectByPrimaryKey(Long id);
 
     List<SysUser> selectAll();
 

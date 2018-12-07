@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.product.sysuser.bean.SysUser;
 import com.product.sysuser.dao.ISysUserMapper;
 import com.product.sysuser.service.ISysUserService;
+import com.product.util.KeyGeneratorUtil;
 
 @Service
 public class SysUserServiceImpl implements ISysUserService {
@@ -17,11 +18,18 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
 	public int save(SysUser sysUser) {
-    	return sysUserMapper.insert(sysUser);
+    	if (sysUser.getId() == null) {
+    		// 执行新增操作
+    		sysUser.setId(KeyGeneratorUtil.getNextLong());
+    		return sysUserMapper.insert(sysUser);
+		} else {
+			// 执行更新操作
+			return sysUserMapper.updateByPrimaryKey(sysUser);
+		}
 	}
     
     @Override
-	public SysUser findSysUser(Integer id) {
+	public SysUser findSysUser(Long id) {
 		return sysUserMapper.selectByPrimaryKey(id);
 	}
     

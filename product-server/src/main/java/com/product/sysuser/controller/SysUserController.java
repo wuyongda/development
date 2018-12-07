@@ -21,20 +21,20 @@ public class SysUserController {
     private ISysUserService sysUserService;
     
     @RequestMapping("/sysUser/save")
-    public Result<Integer> save(SysUser sysUser) {
+    public Result<Long> save(SysUser sysUser) {
     	int i = sysUserService.save(sysUser);
         return Result.success(sysUser.getId());
     }
 
     @RequestMapping("/sysUser/{id}")
-    public Result<SysUser> findSysUser(@PathVariable Integer id) {
+    public Result<SysUser> findSysUser(@PathVariable Long id) {
     	SysUser sysUser = sysUserService.findSysUser(id);
     	return Result.success(sysUser);
     }
     
     @RequestMapping("/sysUser")
     public Result<PageInfo<SysUser>> findSysUsers(Page<SysUser> page, SysUser sysUser) {
-    	PageHelper.startPage(1, 1);
+    	PageHelper.startPage(page.getPageNum(), page.getPageSize());
     	List<SysUser> sysUsers = sysUserService.findSysUsers(sysUser);
     	PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(sysUsers);
     	return Result.success(pageInfo);

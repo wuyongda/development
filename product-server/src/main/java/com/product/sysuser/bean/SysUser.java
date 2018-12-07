@@ -1,19 +1,31 @@
 package com.product.sysuser.bean;
 
 public class SysUser {
-    private Integer id;
+    /**
+     * 主键
+     */
+    private Long id;
 
+    /**
+     * 登录名称
+     */
     private String username;
 
+    /**
+     * 登录密码
+     */
     private String password;
 
+    /**
+     * 真实姓名
+     */
     private String realName;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
