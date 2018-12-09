@@ -12,4 +12,6 @@ public interface ISysMenuMapper extends SysMenuMapper{
 
     List<SysMenu> selectList(SysMenuDTO dto);
 
+    List<SysMenu> menuItems(Long id);
+
 }

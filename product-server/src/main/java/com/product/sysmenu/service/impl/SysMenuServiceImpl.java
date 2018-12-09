@@ -75,8 +75,18 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
     @Override
     public int save(SysMenu sysMenu) {
-        sysMenu.setId(KeyGeneratorUtil.getNextLong());
-        return sysMenuMapper.insert(sysMenu);
+        if (sysMenu.getId() == null) {
+            sysMenu.setId(KeyGeneratorUtil.getNextLong());
+            return sysMenuMapper.insert(sysMenu);
+        } else {
+            return sysMenuMapper.updateByPrimaryKey(sysMenu);
+        }
+        
+    }
+
+    @Override
+    public List<SysMenu> menuItems(Long id) {
+        return sysMenuMapper.menuItems(id);
     }
 
 }

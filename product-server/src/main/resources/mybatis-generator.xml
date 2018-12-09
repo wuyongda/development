@@ -25,23 +25,23 @@
     </javaTypeResolver>
 
 	<!-- 生成实体模型 -->
-    <javaModelGenerator targetPackage="com.product.generator" targetProject="src\main\java">
+    <javaModelGenerator targetPackage="com.product.sysrole.bean" targetProject="src\main\java">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
 	<!-- 生成mapper文件 -->
-    <sqlMapGenerator targetPackage="com.product.generator" targetProject="src\main\java"><!-- targetPackage="mapper"  targetProject="src\main\resources" -->
+    <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources"><!-- targetPackage="mapper"  targetProject="src\main\resources" -->
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 	
 	<!-- 生成dao层接口 -->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.product.generator"  targetProject="src\main\java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.product.sysrole.dao"  targetProject="src\main\java">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
 
 	<!-- 需要反向生成的表 -->
-    <table tableName="sys_menu" domainObjectName="SysMenu" >
+    <table tableName="sys_role" domainObjectName="SysRole" >
     </table>
   </context>
 </generatorConfiguration>

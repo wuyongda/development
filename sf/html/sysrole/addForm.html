@@ -10,12 +10,12 @@
 		<form class="layui-form" lay-filter="userForm" style="padding-top:20px;padding-right: 30px;">
 			<input type="hidden" name="id"/>
 			<div class="layui-form-item">
-				<label class="layui-form-label">姓名</label>
+				<label class="layui-form-label">角色名称</label>
 				<div class="layui-input-block">
-					<input type="text" name="realName" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
+					<input type="text" name="name" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
 				</div>
 			</div>
-			<div class="layui-form-item">
+			<!--<div class="layui-form-item">
 				<label class="layui-form-label">用户名</label>
 				<div class="layui-input-block">
 					<input type="text" name="username" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
@@ -26,7 +26,7 @@
 				<div class="layui-input-block">
 					<input type="text" name="password" required lay-verify="required" placeholder="请输入..." autocomplete="off" class="layui-input">
 				</div>
-			</div>
+			</div>-->
 			<div class="layui-form-item">
 				<div class="layui-input-block">
 					<button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
@@ -44,7 +44,7 @@
 					layer.load();
 					$.ajax({
 						type:"post",
-						url:"/sysUser/save",
+						url:"/sysRole/save",
 						data:data.field,
 						async:true,
 						success: function(data) {

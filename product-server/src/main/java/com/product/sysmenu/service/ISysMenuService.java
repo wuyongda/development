@@ -29,4 +29,11 @@ public interface ISysMenuService {
 	 */
     int save(SysMenu sysMenu);
 
+    /**
+     * 根据菜单主键获取下一级菜单列表
+     * @param id
+     * @return
+     */
+    List<SysMenu> menuItems(Long id);
+
 }

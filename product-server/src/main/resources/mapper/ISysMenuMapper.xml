@@ -23,4 +23,10 @@
     	</if>
     </where>
   </select>
+  
+  <select id="menuItems" resultMap="BaseResultMap">
+  	select * 
+  	from sys_menu
+  	where parent_id = #{id}
+  </select>
 </mapper>

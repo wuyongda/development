@@ -62,4 +62,16 @@ public class SysMenuController {
         int i = sysMenuService.save(sysMenu);
         return Result.success(sysMenu.getId());
     }
+    
+    /**
+     * 根据菜单主键获取下一级菜单列表
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/sysMenu/menuItems")
+    public Result<List<SysMenu>> menuItems(Long id) {
+        List<SysMenu> sysMenus = sysMenuService.menuItems(id);
+        return Result.success(sysMenus);
+    }
 }

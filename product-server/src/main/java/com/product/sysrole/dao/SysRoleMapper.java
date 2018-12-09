@@ -4,11 +4,11 @@ import com.product.sysrole.bean.SysRole;
 import java.util.List;
 
 public interface SysRoleMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SysRole record);
 
-    SysRole selectByPrimaryKey(Integer id);
+    SysRole selectByPrimaryKey(Long id);
 
     List<SysRole> selectAll();
 

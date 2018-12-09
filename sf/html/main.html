@@ -60,7 +60,7 @@
 									var dl = $('<dl class="layui-nav-child"></dl>').appendTo(li);
 									$.each(menu.children, function(i, item){
 										var childrenNode = item.node;
-										var dd = $('<dd><a href="javascript:;" onclick="showPage(\''+childrenNode.url+'\')">'+ childrenNode.name +'</a></dd>').appendTo(dl);
+										var dd = $('<dd><a href="javascript:;" onclick="showPage(\''+childrenNode.url+'?menuId='+childrenNode.id+'\')">'+ childrenNode.name +'</a></dd>').appendTo(dl);
 									})
 								}
 							});

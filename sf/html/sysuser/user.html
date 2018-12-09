@@ -6,23 +6,21 @@
 		<link rel="stylesheet" href="../../plugin/layui/css/layui.css">
 	</head>
 	<body>
-		<script type="text/html" id="toolbarDemo">
-			<div class="layui-btn-container">
-				<button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
-    			<button class="layui-btn layui-btn-sm" lay-event="update">修改</button>
-    			<button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
-  			</div>
+		<script type="text/html" id="toolbar">
+			<!-- 按钮工具栏，用于加载系统菜单中配置的页面按钮 -->
 		</script>
 		<table id="userTb" lay-filter="userTb"></table>
 		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
 		<script src="../../plugin/layui/layui.all.js"></script>
+		<script src="../../js/sys-common.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			layui.use('table', function(){
+				initToolbar('#toolbar');
 				var table = layui.table;
 				//第一个实例
 				table.render({
 					elem: '#userTb'
-			    	,toolbar: '#toolbarDemo'
+			    	,toolbar: '#toolbar'
 			    	,height: 'full-0'
 			    	,url: '/sysUser' //数据接口
 			    	,page: true //开启分页

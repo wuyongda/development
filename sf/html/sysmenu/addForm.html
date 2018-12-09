@@ -26,7 +26,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">父级菜单</label>
 				<div class="layui-input-block">
-					<select id="parentId" name="parentId" xm-select="parentId">
+					<select id="parentId" name="parentId" xm-select="parentId" xm-select-radio="">
 						<option value="0">无</option>
 					</select>
 				</div>
@@ -81,75 +81,34 @@
 					});
 			    	return false;
 				});
-			  	
-			  	/*layui.formSelects.data('parentId', 'local', {
-		            arr: [
-		                {name: '北京', value: 1, xslkdf: '123', children: [
-		                	{name: '朝阳', disabled: true, value: 11}, {name: '海淀', value: 12}]},
-		                {name: '深圳', value: 2, children: [{name: '龙岗', value: 21}]}
-		            ],
-		            tree: {
-		                //在点击节点的时候, 如果没有子级数据, 会触发此事件
-		                nextClick: function(id, item, callback){
-		                    //需要在callback中给定一个数组结构, 用来展示子级数据
-		                    callback([
-		                        {name: 'test1', value: Math.random()},
-		                        {name: 'test2', value: Math.random()}
-		                    ])
-		                },
-		            }
-		        });*/
-			  	layui.formSelects.config('parentId', {
-		            beforeSuccess: function(id, url, searchVal, result){
-		                //我要把数据外层的code, msg, data去掉
-		                result = result.data;
-		                //我要反转name
-		                $.each(result, function(index, item) {
-		                    item.name && (item.name = item.name.split('').reverse().join(''))
-		                });
-		                //然后返回数据
-		                return result;
-		            }
-		        }).data('parentId', 'server', {
-		            url: '/sysMenu/tree'
-		        });
-			  	/*layui.formSelects.data('parentId', 'local', {
-		            arr: [
-		                {name: '分组1', type: 'optgroup'},
-		                {name: '北京', value: 1, xslkdf: '123', children: [{name: '朝阳', disabled: true, value: 11}, {name: '海淀', value: 12}]},
-		                {name: '分组2', type: 'optgroup'},
-		                {name: '深圳', value: 2, children: [{name: '龙岗', value: 21}]},
-		            ],
-		            tree: {
-		                //在点击节点的时候, 如果没有子级数据, 会触发此事件
-		                nextClick: function(id, item, callback){
-		                    //需要在callback中给定一个数组结构, 用来展示子级数据
-		                    callback([
-		                        {name: 'test1', value: Math.random()},
-		                        {name: 'test2', value: Math.random()}
-		                    ])
-		                },
-		            }
-		        });*/
-		        
-		        
-			  	/*$.ajax({
-			  		type: "post",
-			  		url: "/sysMenu",
-			  		async: true,
-			  		data: {
-			  			parentId: 0
-			  		},
-			  		success: function(data) {
-			  			if(data.code == "0000") {
-			  				var selectObj = $("#parentId");
-			  				$.each(data.data, function(i, menu) {
-			  					$('<option value="'+ menu.id +'">'+ menu.name +'</option>').appendTo(selectObj);
-			  				});
-			  				form.render("select");
-			  			}
-			  		}
-			  	});*/
+		       
+		       	function initParentMenu(treeNode, data){
+		       		$.each(data, function(index, item) {
+		       			var node = {
+		       				"name" : item.node.name,
+		       				"value" : item.node.id,
+		       				"children" : []
+		       			};
+		       			treeNode.push(node);
+		       			initParentMenu(node.children, item.children);
+		       		});
+		       	}
+		       	
+		        $.ajax({
+					type : 'post',
+					url : '/sysMenu/tree',
+        			async: false,
+        			success : function(data) {
+        				if(data.code=='0000'){
+        					var options = []
+        					initParentMenu(options, data.data);
+        					var formSelects = layui.formSelects;
+        					formSelects.data('parentId', 'local',{
+        						arr:options
+        					})
+        				}
+        			}
+				})
 			});
 			
 		</script>
