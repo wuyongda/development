@@ -2,10 +2,12 @@ package com.product.security;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.product.sysuser.bean.SysUser;
@@ -19,11 +21,19 @@ public class LoginAuthenticationProvider implements AuthenticationProvider{
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        // 获取用户名
+    	// 获取用户名
         String username = (String) authentication.getPrincipal();
         // 获取密码
         String password = (String) authentication.getCredentials();
         
+        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(password)) {
+        	// 登录表单为空时，从token中获取用户信息
+        	Authentication token = SecurityContextHolder.getContext().getAuthentication();
+        	if (token!= null) {
+        		// 足够如果登录表单为空，且token中存在登录信息时，直接返回token中的登录信息
+				return token;
+			}
+        }
         // 数据库用户信息校验
         SysUser sysUser = new SysUser();
         sysUser.setUsername(username);

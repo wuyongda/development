@@ -5,6 +5,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.product.security.handler.LoginAuthenticationEntryPoint;
+import com.product.security.handler.LoginAuthenticationFailureHandler;
+import com.product.security.handler.LoginAuthenticationSuccessHandler;
+import com.product.security.handler.MyLogoutSuccessHandler;
+import com.product.security.jwt.JwtAuthenticationTokenFilter;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,6 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginAuthenticationProvider authenticationProvider;
     
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
@@ -38,12 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+        .sessionManagement()
+        	.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 禁用session
+        	.and()
         .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPoint) // 添加未登录拦截器
             .and()
         .formLogin()
             .loginProcessingUrl("/login") // 登录请求路径
-            .usernameParameter("username").passwordParameter("password").permitAll()
+            //.usernameParameter("username").passwordParameter("password").permitAll()
             .failureHandler(authenticationFailureHandler) // 添加登录失败拦截器
             .successHandler(authenticationSuccessHandler) // 添加登录成功拦截器
             .and()
@@ -51,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutUrl("/logout") // 注销请求路径
             .logoutSuccessHandler(logoutSuccessHandler) // 添加注销成功拦截器
             .and()
+        .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
             .anyRequest() // 拦截所有的请求路径
             .authenticated()
