@@ -5,19 +5,21 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.product.sysuser.bean.SysUser;
-import com.product.sysuser.service.ISysUserService;
+import com.product.security.model.UserService;
 
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider{
 
     @Autowired
-    private ISysUserService userService;
+    private UserService userDetailService;
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,20 +36,23 @@ public class LoginAuthenticationProvider implements AuthenticationProvider{
 				return token;
 			}
         }
-        // 数据库用户信息校验
-        SysUser sysUser = new SysUser();
-        sysUser.setUsername(username);
-        sysUser.setPassword(password);
-        List<SysUser> sysUsers = userService.findSysUsers(sysUser);
         
-        // 检验逻辑判断
-        if (sysUsers.isEmpty()) {
-            // 未通过登录校验
-            return null;
-        } else {
-            // 通过登录校验
-            return authentication;
-        }
+        // 数据库用户信息校验
+        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        
+        // 判断登录用户输入的密码是否与数据库中的一致
+        if (userDetails.getPassword().equals(password)) {
+        	// 通过登录校验
+        	
+        	// 获取登录用户的权限信息
+        	List<SimpleGrantedAuthority> authorities = userDetailService.getAuthorities(userDetails);
+        	
+        	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password, authorities);
+        	token.setDetails(userDetails);
+        	return token;
+		}
+        
+        return null;
     }
 
     @Override
