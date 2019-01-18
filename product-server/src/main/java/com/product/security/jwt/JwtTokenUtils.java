@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
@@ -51,15 +50,4 @@ public class JwtTokenUtils {
 		return Jwts.parser().isSigned(token);
 	}
 	
-	public static void main(String[] args) {
-		//byte[] bytes = TextCodec.BASE64.decode();
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("username", "admin");
-		param.put("password", "1");
-		JwtTokenUtils tokenUtils = new JwtTokenUtils();
-		String token = tokenUtils.createToken(param);
-		System.out.println(token);
-		Claims claims = tokenUtils.parseToken(token);
-		System.out.println("end");
-	}
 }

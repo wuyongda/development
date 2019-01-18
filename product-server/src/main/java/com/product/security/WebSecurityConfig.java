@@ -52,6 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement()
         	.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 禁用session
         	.and()
+        .authorizeRequests()
+        	.antMatchers("/druid/*").permitAll()
+            .anyRequest() // 拦截所有的请求路径
+            .authenticated()
+            .and()
         .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPoint) // 添加未登录拦截器
             .and()
@@ -66,10 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessHandler(logoutSuccessHandler) // 添加注销成功拦截器
             .and()
         .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-        .authorizeRequests()
-            .anyRequest() // 拦截所有的请求路径
-            .authenticated()
-            .and()
         .cors() // 设置允许跨域访问
             .and()
         .csrf() 
