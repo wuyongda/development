@@ -1,17 +1,19 @@
 package com.product.sysmenu.bean;
 
+import java.util.List;
+
 public class SysMenuDTO {
 	
-    private Integer userId;
+    private List<Long> roleIds;
     
     private SysMenu sysMenu;
 
-	public Integer getUserId() {
-		return userId;
+	public List<Long> getRoleIds() {
+		return roleIds;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setRoleIds(List<Long> roleIds) {
+		this.roleIds = roleIds;
 	}
 
 	public SysMenu getSysMenu() {

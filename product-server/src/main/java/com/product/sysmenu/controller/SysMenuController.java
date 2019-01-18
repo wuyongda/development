@@ -2,8 +2,6 @@ package com.product.sysmenu.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,17 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.product.model.Result;
 import com.product.sysmenu.bean.SysMenu;
-import com.product.sysmenu.bean.SysMenuDTO;
 import com.product.sysmenu.bean.TreeNode;
 import com.product.sysmenu.service.ISysMenuService;
-import com.product.sysuser.bean.SysUser;
 
 @RestController
 public class SysMenuController {
 
-	@Autowired
-	private HttpSession session;
-	
     @Autowired
     private ISysMenuService sysMenuService;
     
@@ -31,11 +24,8 @@ public class SysMenuController {
      */
     @ResponseBody
     @RequestMapping("/sysMenu/tree")
-    public Result<List<TreeNode<SysMenu>>> sysMenuTree() {
-    	SysUser sysUser = (SysUser) session.getAttribute("operator");
-    	SysMenuDTO dto = new SysMenuDTO();
-    	//dto.setUserId(sysUser.getId());
-        List<TreeNode<SysMenu>> treeNodes = sysMenuService.sysMenuTree(dto);
+    public Result<List<TreeNode<SysMenu>>> sysMenuTree(SysMenu sysMenu) {
+        List<TreeNode<SysMenu>> treeNodes = sysMenuService.sysMenuTree(sysMenu);
         
         return Result.success(treeNodes);
     }
@@ -48,6 +38,7 @@ public class SysMenuController {
     @RequestMapping("/sysMenu")
     public Result<List<SysMenu>> sysMenu(SysMenu sysMenu) {
         List<SysMenu> sysMenus = sysMenuService.selectSysMenu(sysMenu);
+        
         return Result.success(sysMenus);
     }
     
@@ -73,5 +64,17 @@ public class SysMenuController {
     public Result<List<SysMenu>> menuItems(Long id) {
         List<SysMenu> sysMenus = sysMenuService.menuItems(id);
         return Result.success(sysMenus);
+    }
+    
+    /**
+     * 分配菜单权限
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/sysMenu/menuAuthority")
+    public Result<List<TreeNode<SysMenu>>> menuAuthority(Long roleId) {
+    	List<TreeNode<SysMenu>> treeNodes = sysMenuService.menuAuthority(roleId);
+        
+        return Result.success(treeNodes);
     }
 }

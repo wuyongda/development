@@ -2,26 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.product.sysmenu.dao.ISysMenuMapper">
   
-  <select id="selectList" resultMap="BaseResultMap" parameterType="com.product.sysmenu.bean.SysMenuDTO">
+  <select id="selectList" resultMap="BaseResultMap" parameterType="com.product.sysmenu.bean.SysMenu">
     select id, name, icon, parent_id, url, remark, type
     from sys_menu
     <where>
     	1 = 1
-    	<if test="sysMenu!=null &amp;&amp; sysMenu.parentId != null">
-    		and parent_id = #{sysMenu.parentId}
-    	</if>
-    	<if test="userId != null">
-    		and id in (
-				SELECT rm.menu_id 
-				from sys_user_role ur
-				INNER JOIN sys_role r
-				ON ur.role_id = r.id
-				INNER JOIN sys_role_menu rm
-				ON r.id = rm.role_id
-				where ur.user_id = 0
-    		)
+    	<if test="parentId != null">
+    		and parent_id = #{parentId}
     	</if>
     </where>
+  </select>
+  
+  <select id="selectRoleMenu" resultType="java.lang.Long" parameterType="java.util.List">
+  	select rm.menu_id 
+  	from sys_role_menu rm
+  	where rm.role_id in
+  	<foreach collection="list" index="i" item="roleId" open="(" separator="," close=")">
+		#{roleId}
+	</foreach>
   </select>
   
   <select id="menuItems" resultMap="BaseResultMap">

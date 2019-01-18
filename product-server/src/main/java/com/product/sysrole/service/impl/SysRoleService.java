@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.product.sysrole.bean.SysRole;
+import com.product.sysrole.bean.SysRoleMenu;
 import com.product.sysrole.dao.ISysRoleMapper;
 import com.product.sysrole.service.ISysRoleService;
 import com.product.util.KeyGeneratorUtil;
@@ -30,5 +31,22 @@ public class SysRoleService implements ISysRoleService {
     public List<SysRole> findSysRoles(SysRole sysRole) {
         return sysRoleMapper.selectList(sysRole);
     }
+
+	@Override
+	public List<SysRole> findSysRolesByUserId(Long id) {
+		return sysRoleMapper.findSysRolesByUserId(id);
+	}
+
+	@Override
+	public void saveMenuAuthority(Long roleId, Long menuId) {
+		SysRoleMenu roleMenu = new SysRoleMenu(KeyGeneratorUtil.getNextLong(), roleId, menuId);
+				
+		sysRoleMapper.insertRoleMenu(roleMenu);
+	}
+
+	@Override
+	public int deleteMenuAuthority(Long roleId) {
+		return sysRoleMapper.deleteRoleMenuByRoleId(roleId);
+	}
 	
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class TreeNode<T> {
 
+	private boolean checked; // 勾选状态 
+	
 	private T node; // 父节点
 	
 	private List<TreeNode<T>> children = new ArrayList<TreeNode<T>>(); // 孩子节点
@@ -17,6 +19,15 @@ public class TreeNode<T> {
 	public void addChildren(TreeNode<T> t){
 		children.add(t);
 	}
+	
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
 	public T getNode() {
 		return node;
 	}
@@ -32,6 +43,5 @@ public class TreeNode<T> {
 	public void setChildren(List<TreeNode<T>> children) {
 		this.children = children;
 	}
-	
 	
 }

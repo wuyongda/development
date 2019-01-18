@@ -16,5 +16,20 @@ public interface ISysRoleService {
     int save(SysRole sysRole);
 
     List<SysRole> findSysRoles(SysRole sysRole);
+
+	List<SysRole> findSysRolesByUserId(Long id);
+
+	/**
+	 * 保存菜单权限
+	 * @param roleId
+	 * @param menuId
+	 */
+	void saveMenuAuthority(Long roleId, Long menuId);
+
+	/**
+	 * 删除菜单权限
+	 * @param roleId
+	 */
+	int deleteMenuAuthority(Long roleId);
 	
 }
