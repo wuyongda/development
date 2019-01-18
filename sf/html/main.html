@@ -42,11 +42,14 @@
 		</div>
 		<script src="../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
 		<script src="../plugin/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			$(function(){
 				$.ajax({
 					type: "get",
 					url: '/sysMenu/tree',
+					headers: getLoginToken(),
 					async: true,
 					success: function(data) {
 						if(data.code == "0000") {

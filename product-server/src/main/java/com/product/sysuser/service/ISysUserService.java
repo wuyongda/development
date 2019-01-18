@@ -17,5 +17,7 @@ public interface ISysUserService {
 
 	SysUser findSysUser(Long id);
 
+	SysUser findSysUser(SysUser sysUser);
+	
 	List<SysUser> findSysUsers(SysUser sysUser);
 }

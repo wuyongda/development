@@ -14,9 +14,15 @@ layui.define(['layer', 'table'], function (exports) {
             if (param.data) {
                 treetable.init(param, param.data);
             } else {
-                $.getJSON(param.url, param.where, function (res) {
-                    treetable.init(param, res.data);
-                });
+                $.ajax({
+					type: "get",
+					url: param.url,
+					headers: param.headers,
+					data: param.where,
+					success: function(res) {
+						treetable.init(param, res.data);
+					}
+				})
             }
         },
         // 渲染表格

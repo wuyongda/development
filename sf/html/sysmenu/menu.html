@@ -28,6 +28,8 @@
 		
 		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
 		<script src="../../plugin/layui/layui.all.js"></script>
+		<script src="../../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			layui.config({
 				base: '../../plugin/module/'
@@ -49,6 +51,7 @@
 					elem: '#auth-table',
 					toolbar: '#toolbarDemo',
 					url: '/sysMenu',
+					headers: getLoginToken(),
 					page: false,
 					cols: [[
 						{type: 'radio', field: 'id',},

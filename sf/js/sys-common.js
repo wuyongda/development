@@ -7,6 +7,7 @@ function initToolbar(idSelecter) {
 		type : 'post',
 		url : '/sysMenu/menuItems',
 		async : false,
+		headers : getLoginToken(),
 		data : {
 			id : menuId
 		},
@@ -30,4 +31,19 @@ function getQueryVariable(variable) {
 		if(pair[0] == variable){return pair[1];}
 	}
     return(false);
+}
+
+/**
+ *	获取登录信息的token数据 
+ */
+function getLoginToken() {
+	var header = {
+		"myToken" : getCookie("token")
+	};
+	return header
+}
+
+function setLoginToken(request){
+	var token = request.getResponseHeader("myToken");
+	setCookie("token", token, 1);
 }

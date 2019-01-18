@@ -57,6 +57,8 @@
 		<script src="../../plugin/layui/layui.all.js"></script>
 		<!-- 引入组件 -->
 		<script src="//raw.githack.com/hnzzmsf/layui-formSelects/master/dist/formSelects-v4.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			layui.use('form', function(){
 				var form = layui.form;
@@ -67,7 +69,7 @@
 						type:"post",
 						url:"/sysMenu/save",
 						data:data.field,
-						async:true,
+						headers: getLoginToken(),
 						success: function(data) {
 							if(data.code == "0000") {
 								var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -96,8 +98,9 @@
 		       	
 		        $.ajax({
 					type : 'post',
+					async: false,
 					url : '/sysMenu/tree',
-        			async: false,
+					headers: getLoginToken(),
         			success : function(data) {
         				if(data.code=='0000'){
         					var options = []

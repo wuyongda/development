@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>菜单权限</title>
+		<link rel="stylesheet" type="text/css" href="../../plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>
+	</head>
+	<body>
+		<input type="hidden" id="roleId" name="roleId" />
+		<div>
+			<ul id="menuTree" class="ztree"></ul>
+		</div>
+		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.core.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.excheck.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var zTreeObj;
+			// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+			var setting = {
+				check : {
+					enable: true
+				}
+			};
+			// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+			/*var zNodes = [{
+					name: "test1",
+					open: true,
+					children: [{
+						name: "test1_1"
+					}, {
+						name: "test1_2"
+					}]
+				},
+				{
+					name: "test2",
+					open: true,
+					children: [{
+						name: "test2_1"
+					}, {
+						name: "test2_2"
+					}]
+				}
+			];*/
+			$(document).ready(function() {
+				$.ajax({
+					type:"get",
+					async:true,
+					url:"/sysMenu/menuAuthority",
+					headers: getLoginToken(),
+					data: {
+						roleId : $("#roleId").val()
+					},
+					success: function(data) {
+						console.info(data);
+						if (data.code == '0000') {
+							var zNodes = [];
+							initZNodes(zNodes, data.data);
+							zTreeObj = $.fn.zTree.init($("#menuTree"), setting, zNodes);
+						}
+					}
+				});
+				
+			});
+			
+			function initZNodes(zNodes, sourceData) {
+				for (var i = 0; i < sourceData.length; i++) {
+					var zNode = sourceData[i].node;
+					
+					zNode["checked"] = sourceData[i].checked;
+					
+					if (sourceData[i].children.length > 0) {
+						zNode["children"] = [];
+						initZNodes(zNode.children, sourceData[i].children);
+					}
+					
+					zNodes.push(zNode);
+					
+				}
+			}
+			
+			/**
+			 * 保存菜单权限
+			 */
+			function save() {
+				var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+				var nodes = treeObj.getCheckedNodes(true);
+				console.info(nodes);
+				
+				var ids = [];
+				$.each(nodes, function(index, node) {
+					ids.push(node.id);
+				});
+				
+				var savaData = {
+					roleId : $("#roleId").val(),
+					menuIds : ids
+				}
+				$.ajax({
+					type: "post",
+					url: "/sysRole/saveMenuAuthority",
+					contentType: "application/json",
+					headers: getLoginToken(),
+					data: JSON.stringify(savaData),
+					success: function(data) {
+						if (data.code == "0000") {
+							var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+							parent.layer.close(index);
+							parent.layer.msg('成功');
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

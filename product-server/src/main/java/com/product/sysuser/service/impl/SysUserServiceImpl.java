@@ -33,12 +33,18 @@ public class SysUserServiceImpl implements ISysUserService {
 		return sysUserMapper.selectByPrimaryKey(id);
 	}
     
+    @Override
+	public SysUser findSysUser(SysUser sysUser) {
+    	List<SysUser> list = this.findSysUsers(sysUser);
+    	if (list.isEmpty()) {
+			return null;
+		}
+    	return list.get(0);
+	}
+    
 	@Override
 	public List<SysUser> findSysUsers(SysUser sysUser) {
 		return sysUserMapper.selectList(sysUser);
 	}
 
-	
-
-	
 }
