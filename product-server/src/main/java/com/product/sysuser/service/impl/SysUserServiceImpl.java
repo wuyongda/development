@@ -47,4 +47,9 @@ public class SysUserServiceImpl implements ISysUserService {
 		return sysUserMapper.selectList(sysUser);
 	}
 
+	@Override
+	public int delete(Long id) {
+		return sysUserMapper.deleteByPrimaryKey(id);
+	}
+
 }

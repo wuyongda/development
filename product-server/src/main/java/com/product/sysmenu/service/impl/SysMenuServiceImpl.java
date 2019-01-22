@@ -24,20 +24,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Autowired
     private ISysMenuMapper sysMenuMapper;
     
-    private void menuAuthorityFilter(List<SysMenu> sysMenus) {
-    	// 根据当前登录人的角色信息查询菜单权限
-    	List<Long> menuIds = sysMenuMapper.selectRoleMenu(SecurityUtils.getLoginUserRole());
-    	
-    	// 将List转化的Set
-    	Set<Long> authority = new HashSet<Long>(menuIds);
-    	
-    	// 遍历菜单对象进行权限过滤
-    	Iterator<SysMenu> iterator = sysMenus.iterator();
-		while(iterator.hasNext()) {
-			if (!authority.contains(iterator.next().getId())) {
-				iterator.remove();
-			}
-		}
+    @Override
+	public List<SysMenu> selectSysMenu(SysMenu sysMenu) {
+		return sysMenuMapper.selectList(sysMenu);
 	}
     
     @Override
@@ -58,6 +47,78 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return treeNodes;
     }
 
+    @Override
+    public List<SysMenu> menuItems(Long id) {
+    	List<SysMenu> sysMenus = sysMenuMapper.menuItems(id);
+    	
+    	// 根据权限过滤菜单信息
+		this.menuAuthorityFilter(sysMenus);
+    	
+        return sysMenus;
+    }
+
+    @Override
+    public int save(SysMenu sysMenu) {
+        if (sysMenu.getId() == null) {
+            sysMenu.setId(KeyGeneratorUtil.getNextLong());
+            return sysMenuMapper.insert(sysMenu);
+        } else {
+            return sysMenuMapper.updateByPrimaryKey(sysMenu);
+        }
+        
+    }
+
+	@Override
+	public List<TreeNode<SysMenu>> menuAuthority(Long roleId) {
+		// 查询所有菜单信息
+    	List<SysMenu> sysMenus = sysMenuMapper.selectList(new SysMenu());
+    	
+    	List<TreeNode<SysMenu>> treeNodes = new ArrayList<TreeNode<SysMenu>>();
+    	Map<Long, TreeNode<SysMenu>> treeMap = new HashMap<Long, TreeNode<SysMenu>>();
+    	
+    	for (SysMenu menu : sysMenus) {
+    		this.initTree(menu, treeMap, treeNodes);
+		}
+    	
+    	List<Long> roleIds = new ArrayList<Long>();
+		roleIds.add(roleId);
+		
+		// 根据当前登录人的角色信息查询菜单权限
+    	List<Long> menuIds = sysMenuMapper.selectRoleMenu(roleIds);
+    	
+    	// 将List转化的Set
+    	Set<Long> authority = new HashSet<Long>(menuIds);
+    	// 根据权限过滤菜单信息
+		this.menuAuthorityCheckedFilter(authority, treeNodes);
+    	
+        return treeNodes;
+	}
+
+	@Override
+	public int delete(Long id) {
+		return sysMenuMapper.deleteByPrimaryKey(id);
+	}
+
+	/**
+	 * 菜单权限过滤器
+	 * @param sysMenus
+	 */
+	private void menuAuthorityFilter(List<SysMenu> sysMenus) {
+    	// 根据当前登录人的角色信息查询菜单权限
+    	List<Long> menuIds = sysMenuMapper.selectRoleMenu(SecurityUtils.getLoginUserRole());
+    	
+    	// 将List转化的Set
+    	Set<Long> authority = new HashSet<Long>(menuIds);
+    	
+    	// 遍历菜单对象进行权限过滤
+    	Iterator<SysMenu> iterator = sysMenus.iterator();
+		while(iterator.hasNext()) {
+			if (!authority.contains(iterator.next().getId())) {
+				iterator.remove();
+			}
+		}
+	}
+	
 	/**
      * 基于引用传递的方式构建菜单树
      * @param sysMenu
@@ -88,59 +149,12 @@ public class SysMenuServiceImpl implements ISysMenuService {
 			}
 		}
 	}
-
-	@Override
-	public List<SysMenu> selectSysMenu(SysMenu sysMenu) {
-		return sysMenuMapper.selectList(sysMenu);
-	}
-
-    @Override
-    public int save(SysMenu sysMenu) {
-        if (sysMenu.getId() == null) {
-            sysMenu.setId(KeyGeneratorUtil.getNextLong());
-            return sysMenuMapper.insert(sysMenu);
-        } else {
-            return sysMenuMapper.updateByPrimaryKey(sysMenu);
-        }
-        
-    }
-
-    @Override
-    public List<SysMenu> menuItems(Long id) {
-    	List<SysMenu> sysMenus = sysMenuMapper.menuItems(id);
-    	
-    	// 根据权限过滤菜单信息
-		this.menuAuthorityFilter(sysMenus);
-    	
-        return sysMenus;
-    }
-
-	@Override
-	public List<TreeNode<SysMenu>> menuAuthority(Long roleId) {
-		// 查询所有菜单信息
-    	List<SysMenu> sysMenus = sysMenuMapper.selectList(new SysMenu());
-    	
-    	List<TreeNode<SysMenu>> treeNodes = new ArrayList<TreeNode<SysMenu>>();
-    	Map<Long, TreeNode<SysMenu>> treeMap = new HashMap<Long, TreeNode<SysMenu>>();
-    	
-    	for (SysMenu menu : sysMenus) {
-    		this.initTree(menu, treeMap, treeNodes);
-		}
-    	
-    	List<Long> roleIds = new ArrayList<Long>();
-		roleIds.add(roleId);
-		
-		// 根据当前登录人的角色信息查询菜单权限
-    	List<Long> menuIds = sysMenuMapper.selectRoleMenu(roleIds);
-    	
-    	// 将List转化的Set
-    	Set<Long> authority = new HashSet<Long>(menuIds);
-    	// 根据权限过滤菜单信息
-		this.menuAuthorityCheckedFilter(authority, treeNodes);
-    	
-        return treeNodes;
-	}
-
+	
+	/**
+	 * 菜单权限分配过滤器
+	 * @param authority 菜单权限
+	 * @param treeNodes 菜单列表
+	 */
 	private void menuAuthorityCheckedFilter(Set<Long> authority, List<TreeNode<SysMenu>> treeNodes) {
     	// 遍历菜单对象进行权限过滤
     	for (int i = 0; i < treeNodes.size(); i++) {
@@ -153,5 +167,4 @@ public class SysMenuServiceImpl implements ISysMenuService {
 			}
 		}
 	}
-
 }

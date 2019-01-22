@@ -7,6 +7,13 @@ import com.product.sysmenu.bean.TreeNode;
 
 public interface ISysMenuService {
 
+	/**
+     * 查询所有的导航菜单
+     * @param sysMenu 
+     * @return
+     */
+	List<SysMenu> selectSysMenu(SysMenu sysMenu);
+	
     /**
      * 以树形结构的形式组装系统导航菜单
      * @param sysMenu
@@ -14,13 +21,13 @@ public interface ISysMenuService {
      */
     List<TreeNode<SysMenu>> sysMenuTree(SysMenu sysMenu);
 
-    /**
-     * 查询所有的导航菜单
-     * @param sysMenu 
+	/**
+     * 根据菜单主键获取下一级菜单列表
+     * @param id 父级菜单主键
      * @return
      */
-	List<SysMenu> selectSysMenu(SysMenu sysMenu);
-
+    List<SysMenu> menuItems(Long id);
+    
 	/**
 	 * 保存导航菜单
 	 * @param sysMenu
@@ -29,17 +36,17 @@ public interface ISysMenuService {
     int save(SysMenu sysMenu);
 
     /**
-     * 根据菜单主键获取下一级菜单列表
-     * @param id
-     * @return
-     */
-    List<SysMenu> menuItems(Long id);
-
-    /**
      * 分配菜单权限
-     * @param roleId 
+     * @param roleId  角色主键
      * @return
      */
 	List<TreeNode<SysMenu>> menuAuthority(Long roleId);
+
+	/**
+	 * 删除菜单信息
+	 * @param id 菜单主键
+	 * @return
+	 */
+	int delete(Long id);
 
 }

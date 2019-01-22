@@ -161,6 +161,31 @@
 						layer.msg('未选中对象');
 						return ;
 					}
+					var edit = checkStatus.data[0];
+					
+					layer.msg('是否删除菜单：'+ edit.name +'？', {
+						time: 20000, //20s后自动关闭
+				    	btn: ['确定', '取消'],
+				    	yes: function(index, layero) {
+				    		$.ajax({
+								type: "get",
+								url: "/sysMenu/delete",
+								headers: getLoginToken(),
+								data: {
+									id : edit.id
+								},
+								success: function(res) {
+									if (res.code == "0000") {
+										layer.msg('成功');
+										layer.close(index); //如果设定了yes回调，需进行手工关闭
+										table.reload("auth-table", null);
+									} else {
+										layer.msg(res.msg);
+									}
+								}
+							});
+				    	}
+				  	});
 				}
 			});
 		</script>

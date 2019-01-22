@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.product.sysrole.bean.SysRole;
 import com.product.sysrole.bean.SysRoleMenu;
+import com.product.sysrole.bean.SysUserRole;
 
 @Mapper
 public interface ISysRoleMapper extends SysRoleMapper{
@@ -14,8 +15,16 @@ public interface ISysRoleMapper extends SysRoleMapper{
 
 	List<SysRole> findSysRolesByUserId(Long id);
 
-	void insertRoleMenu(SysRoleMenu roleMenu);
+	List<SysUserRole> findSysUserRoles(SysUserRole sysUserRole);
+	
+	void insertSysRoleMenu(SysRoleMenu sysRoleMenu);
 
-	int deleteRoleMenuByRoleId(Long roleId);
+	int insertSysUserRole(SysUserRole sysUserRole);
+
+	int deleteSysRoleMenuByRoleId(Long id);
+	
+	int deleteSysRoleMenuByMenuId(Long id);
+	
+	int deleteSysUserRoleByUserId(Long id);
 
 }

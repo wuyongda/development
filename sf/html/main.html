@@ -9,13 +9,13 @@
 	<body class="layui-layout-body">
 		<div class="layui-layout layui-layout-admin">
 			<div class="layui-header">
-    			<div class="layui-logo">layui 后台布局</div>
+    			<div class="layui-logo">XXX管理系统</div>
     			<!-- 头部区域（可配合layui已有的水平导航） -->
 			    <ul class="layui-nav layui-layout-right">
 			    	<li class="layui-nav-item">
 			        <a href="javascript:;">
 			          	<img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-			          	贤心
+			          	<span id="loginUser"></span>
 			        </a>
 			        <dl class="layui-nav-child">
 			          	<dd><a href="">基本资料</a></dd>
@@ -46,11 +46,21 @@
 		<script src="../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			$(function(){
+				// 初始化菜单信息
+				initMenu();
+				
+				// 初始化登录用户信息
+				initLoginUser();
+			})
+			
+			/**
+			 * 初始化菜单信息
+			 */
+			function initMenu() {
 				$.ajax({
 					type: "get",
 					url: '/sysMenu/tree',
 					headers: getLoginToken(),
-					async: true,
 					success: function(data) {
 						if(data.code == "0000") {
 							$.each(data.data, function(index, menu) {
@@ -75,7 +85,23 @@
 						element.render("nav");
 					}
 				})
-			})
+			}
+			
+			/**
+			 * 初始化登录用户信息
+			 */
+			function initLoginUser() {
+				$.ajax({
+					type: "get",
+					url: "/login/user",
+					headers: getLoginToken(),
+					success: function(res) {
+						if(res.code == "0000") {
+							$("#loginUser").text(res.data.realName);
+						}
+					}
+				});
+			}
 			
 			/**
 			 * 注销用户退出系统
@@ -102,50 +128,14 @@
 			  	});
 			}
 			
+			/**
+			 * 刷新标签页的内容
+			 * @param {Object} url
+			 */
 			function showPage(url) {
 				$("#content-iframe").attr("src", url);
 			}
 			
-			var menus=[{
-	            	id: 1,
-	            	icon: "ios-navigate",
-	            	name: "基本信息",
-	            	too: "user",
-	            	children:[{
-	            		icon: "ios-navigate",
-	            		name:"用户信息",
-	            		url:"customer/customer.html"
-	            	},{
-	            		id: 11,
-	            		icon: "ios-navigate",
-	            		name:"组织结构",
-	            		url:"org/org.html"
-	            	},{
-	            		id: 12,
-	            		icon: "ios-navigate",
-	            		name:"目录1-2",
-	            		url:"https://www.163.com"
-	            	},{
-	            		icon: "ios-navigate",
-	            		name:"目录1-3"
-	            	}]
-	            },{
-	            	icon: "ios-keypad",
-	            	name:"系统管理",
-	            	children:[{
-	            		icon: "ios-navigate",
-	            		url:"sysmenu/menu.html",
-	            		name:"菜单管理"
-	            	},{
-	            		icon: "ios-navigate",
-	            		name:"挂账"
-	            	}]
-	            }]
-			//JavaScript代码区域
-			/*layui.use('element', function(){
-			  var element = layui.element;
-			  
-			});*/
 		</script>
 	</body>
 </html>

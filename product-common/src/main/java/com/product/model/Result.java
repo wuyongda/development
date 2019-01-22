@@ -49,8 +49,20 @@ public class Result<T> {
 	 * @param data
 	 * @return
 	 */
-	public static <T> Result<T> error(ResultStatus status,T data){
+	public static <T> Result<T> error(T data){
 		return Result.build(ResultStatus.ERROR, data);
+	}
+	
+	/**
+	 * 自定义失败返回消息
+	 * @param msg
+	 * @param data
+	 * @return
+	 */
+	public static <T> Result<T> error(String msg, T data) {
+		Result<T> result = Result.build(ResultStatus.ERROR, data);
+		result.setMsg(msg);
+		return result;
 	}
 	
 	public String getCode() {

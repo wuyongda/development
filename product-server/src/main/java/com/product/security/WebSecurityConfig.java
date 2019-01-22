@@ -53,16 +53,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         	.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 禁用session
         	.and()
         .authorizeRequests()
-        	.antMatchers("/druid/*").permitAll()
-            .anyRequest() // 拦截所有的请求路径
-            .authenticated()
+        	.antMatchers("/druid/**").permitAll() //阿里监控资源过滤拦截
+            .anyRequest().authenticated() // 拦截所有的请求路径
             .and()
         .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPoint) // 添加未登录拦截器
             .and()
         .formLogin()
             .loginProcessingUrl("/login") // 登录请求路径
-            //.usernameParameter("username").passwordParameter("password").permitAll()
             .failureHandler(authenticationFailureHandler) // 添加登录失败拦截器
             .successHandler(authenticationSuccessHandler) // 添加登录成功拦截器
             .and()

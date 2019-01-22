@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.product.login.enums.LoginStatus;
 import com.product.model.Result;
+import com.product.security.util.SecurityUtils;
 import com.product.sysuser.bean.SysUser;
 import com.product.sysuser.service.ISysUserService;
 
@@ -54,5 +55,10 @@ public class LoginController {
     public Result<Object> logout(SysUser sysUser) {
     	session.removeAttribute("operator");
     	return Result.success(null);
+    }
+    
+    @RequestMapping("/login/user")
+    public Result<SysUser> user() {
+    	return Result.success(SecurityUtils.getLoginUser());
     }
 }
