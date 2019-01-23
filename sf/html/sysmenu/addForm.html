@@ -103,12 +103,16 @@
 					headers: getLoginToken(),
         			success : function(data) {
         				if(data.code=='0000'){
-        					var options = []
+        					var options = [{
+        						name : "无",
+        						value : 0
+        					}]
         					initParentMenu(options, data.data);
         					var formSelects = layui.formSelects;
         					formSelects.data('parentId', 'local',{
         						arr:options
         					})
+        					
         				}
         			}
 				})
