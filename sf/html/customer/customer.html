@@ -18,6 +18,8 @@
 		
 		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript"></script>
 		<script src="../../plugin/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			layui.use('table', function(){
 				var table = layui.table;
@@ -26,8 +28,13 @@
 					elem: '#customerTb'
 			    	,toolbar: '#toolbarDemo'
 			    	,height: 'full-0'
-			    	,url: 'http://localhost:8080/customer/all' //数据接口
+			    	,url: '/customer/authority' //数据接口
+			    	,headers: getLoginToken()
 			    	,page: true //开启分页
+			    	,request: {
+			    		pageName: 'pageNum' //页码的参数名称，默认：page
+					    ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				    }
 			    	,cols: [[ //表头
 			    		{field: 'id', title: 'ID', type:'checkbox'}
 			    		,{field: 'code', title: '用户编码', width:100, align:'center'}

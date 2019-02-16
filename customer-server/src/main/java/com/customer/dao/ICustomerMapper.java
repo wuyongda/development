@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.customer.bean.Customer;
+import com.customer.bean.CustomerParam;
 
 @Mapper
 public interface ICustomerMapper extends CustomerMapper{
@@ -22,5 +23,12 @@ public interface ICustomerMapper extends CustomerMapper{
      * @return
      */
     List<Customer> findCustomers(Customer customer);
+
+    /**
+     * 查询热用户信息-根据数据权限过滤
+     * @param customerParam
+     * @return
+     */
+    List<Customer> findCustomersByAuthority(CustomerParam customerParam);
 
 }

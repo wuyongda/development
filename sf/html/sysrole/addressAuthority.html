@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数据权限</title>
+		<link rel="stylesheet" type="text/css" href="../../plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>
+	</head>
+	<body>
+		<input type="hidden" id="roleId" name="roleId" />
+		<div>
+			<ul id="addressTree" class="ztree"></ul>
+		</div>
+		<script src="../../plugin/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.core.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../plugin/zTree_v3/js/jquery.ztree.excheck.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/sys-common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var zTreeObj;
+			// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+			var setting = {
+				check : {
+					enable: true
+				},
+				data : {
+					key : {
+						name : "node"
+					}
+				}
+			};
+			
+			$(document).ready(function() {
+				$.ajax({
+					type:"get",
+					async:true,
+					url:"/customer/address/addressAuthority",
+					headers: getLoginToken(),
+					data: {
+						id : $("#roleId").val()
+					},
+					success: function(data) {
+						if (data.code == '0000') {
+							console.info(data.data)
+							var zNodes = data.data;
+							//initZNodes(zNodes, );
+							zTreeObj = $.fn.zTree.init($("#addressTree"), setting, zNodes);
+						}
+					}
+				});
+				
+			});
+			
+			function initZNodes(zNodes, sourceData) {
+				for (var i = 0; i < sourceData.length; i++) {
+					var zNode = sourceData[i].node;
+					
+					zNode["checked"] = sourceData[i].checked;
+					
+					if (sourceData[i].children.length > 0) {
+						zNode["children"] = [];
+						initZNodes(zNode.children, sourceData[i].children);
+					}
+					
+					zNodes.push(zNode);
+					
+				}
+			}
+			
+			/**
+			 * 保存菜单权限
+			 */
+			function save() {
+				var treeObj = $.fn.zTree.getZTreeObj("addressTree");
+				var nodes = treeObj.getCheckedNodes(true);
+				
+				var address = [];
+				$.each(nodes, function(index, node) {
+					if(node.level == 0){
+						address.push({
+							node : node.node,
+							children : []
+						})
+					}
+					
+					if(node.level == 1){
+						var parent = address.slice(-1)[0];
+						parent.children.push({
+							node : node.node
+						})
+					}
+				});
+				var savaData = {
+					roleId : $("#roleId").val(),
+					authority : address
+				}
+				$.ajax({
+					type: "post",
+					url: "/customer/address/saveAddressAuthority",
+					contentType: "application/json",
+					headers: getLoginToken(),
+					data: JSON.stringify(savaData),
+					success: function(data) {
+						if (data.code == "0000") {
+							var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+							parent.layer.close(index);
+							parent.layer.msg('成功');
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

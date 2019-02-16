@@ -2,9 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.customer.dao.ICustomerMapper" >
 	
-  <select id="findCustomers" resultMap="BaseResultMap">
-  	select * from customer
+  <select id="findCustomers" resultMap="com.customer.dao.CustomerMapper.BaseResultMap">
+	select
+		c.*
+	from
+		customer c
+	inner join role_address ra ON ra.one = c.one
+	and ra.two = c.two
+	and ra.role_id IN (
+		SELECT
+			ur.role_id
+		FROM
+			sys_user_role ur
+		WHERE
+			ur.user_id = 1
+	)  	
   </select>
   
+  <select id="findCustomersByAuthority" parameterType="com.customer.bean.CustomerParam" resultMap="com.customer.dao.CustomerMapper.BaseResultMap">
+	SELECT DISTINCT
+		c.*
+	FROM
+		customer c
+	INNER JOIN role_address ra ON ra.one = c.one
+	AND ra.two = c.two
+	AND ra.role_id IN (
+		SELECT
+			ur.role_id
+		FROM
+			sys_user_role ur
+		WHERE
+			ur.user_id = #{userId}
+	)
+  </select>
   
 </mapper>

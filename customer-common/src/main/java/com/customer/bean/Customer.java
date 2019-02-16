@@ -1,16 +1,31 @@
 package com.customer.bean;
 
 public class Customer {
-    private Integer id;
+    private Long id;
 
+    /**
+     * 用户编码
+     */
     private String code;
 
+    /**
+     * 用户名称
+     */
     private String name;
 
+    /**
+     * 身份证号
+     */
     private String idNumber;
 
+    /**
+     * 座机号
+     */
     private String telNo;
 
+    /**
+     * 手机号
+     */
     private String mobNo;
 
     private String one;
@@ -31,11 +46,11 @@ public class Customer {
 
     private String yhlx;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

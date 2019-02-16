@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.customer.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.customer.bean.Address">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="one" jdbcType="VARCHAR" property="one" />
+    <result column="two" jdbcType="VARCHAR" property="two" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from address
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.customer.bean.Address">
+    insert into address (id, one, two)
+    values (#{id,jdbcType=BIGINT}, #{one,jdbcType=VARCHAR}, #{two,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.customer.bean.Address">
+    update address
+    set one = #{one,jdbcType=VARCHAR},
+      two = #{two,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, one, two
+    from address
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, one, two
+    from address
+  </select>
+</mapper>

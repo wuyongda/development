@@ -3,6 +3,7 @@ package com.customer.service;
 import java.util.List;
 
 import com.customer.bean.Customer;
+import com.customer.bean.CustomerParam;
 
 public interface ICustomerService {
 
@@ -18,7 +19,7 @@ public interface ICustomerService {
      * @param id 热用户主键
      * @return
      */
-    Customer findCustomer(Integer id);
+    Customer findCustomer(Long id);
 
     /**
      * 查询热用户信息
@@ -26,5 +27,12 @@ public interface ICustomerService {
      * @return
      */
     List<Customer> findCustomers(Customer customer);
+
+    /**
+     * 查询热用户信息-经过数据权限过滤
+     * @param model
+     * @return
+     */
+    List<Customer> findCustomersByAuthority(CustomerParam customerParam);
 
 }

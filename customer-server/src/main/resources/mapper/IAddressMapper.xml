@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.customer.dao.IAddressMapper" >
+  <resultMap id="RoleAddressMap" type="com.customer.bean.RoleAddress">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="one" jdbcType="VARCHAR" property="one" />
+    <result column="two" jdbcType="VARCHAR" property="two" />
+  </resultMap>
+  
+  <select id="selectRoleAddress" parameterType="java.lang.Long">
+  	select * from role_address where role_id = #{roleId}
+  </select>
+  
+  <select id="selectAddressAuthority" parameterType="java.lang.Long" resultMap="RoleAddressMap">
+	SELECT
+		a.*, ra.role_id
+	FROM
+		address a
+	LEFT JOIN role_address ra ON a.one = ra.one
+	AND a.two = ra.two
+	AND ra.role_id = #{roleId}
+	ORDER BY
+		CONVERT (a.one USING gbk),
+		CONVERT (a.two USING gbk) ASC	
+  </select>
+  
+  <insert id="synchronization">
+	insert into address(id,one,two)
+	select (@i :=@i + 1) as no,ta.one,ta.two
+	from (
+		select 	 DISTINCT  one,  two from customer
+	) ta,	(SELECT @i := 0) AS ti;
+  </insert>
+  
+  <insert id="saveAddressAuthority" parameterType="com.customer.bean.RoleAddress">
+  	INSERT INTO role_address (id, role_id, one, two)VALUES(#{id},#{roleId},#{one},#{two})
+  </insert>
+  
+  <delete id="clear">
+  	truncate table address;
+  </delete>
+  
+  <delete id="deleteAddressAuthorityByRoleId">
+	DELETE FROM role_address WHERE role_id = #{roleId}
+  </delete>
+</mapper>

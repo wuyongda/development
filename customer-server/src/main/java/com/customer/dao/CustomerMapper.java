@@ -1,15 +1,14 @@
 package com.customer.dao;
 
+import com.customer.bean.Customer;
 import java.util.List;
 
-import com.customer.bean.Customer;
-
 public interface CustomerMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Customer record);
 
-    Customer selectByPrimaryKey(Integer id);
+    Customer selectByPrimaryKey(Long id);
 
     List<Customer> selectAll();
 
