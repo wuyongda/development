@@ -40,7 +40,6 @@
 					},
 					success: function(data) {
 						if (data.code == '0000') {
-							console.info(data.data)
 							var zNodes = data.data;
 							//initZNodes(zNodes, );
 							zTreeObj = $.fn.zTree.init($("#addressTree"), setting, zNodes);

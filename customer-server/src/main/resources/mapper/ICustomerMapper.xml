@@ -34,6 +34,55 @@
 		WHERE
 			ur.user_id = #{userId}
 	)
+	<where>
+		<if test="one != null">
+			and c.one = #{one}
+		</if>
+		<if test="two != null">
+			and c.two = #{two}
+		</if>
+		<if test="three != null">
+			and c.three = #{three}
+		</if>
+		<if test="addressPrefix != null">
+			and c.address_prefix = #{addressPrefix}
+		</if>
+	</where>
   </select>
   
+  <select id="initTree" parameterType="com.customer.bean.CustomerParam" resultType="java.util.Map">
+		select distinct
+		<choose>
+			<when test="three != null">c.address_prefix as name</when>
+			<when test="two != null">c.three as name, 'three' as type</when>
+			<when test="one != null">c.two as name, 'two' as type</when>
+			<otherwise>
+				c.one as name, 'one' as type
+			</otherwise>
+		</choose>
+		from customer c
+		inner join role_address ra
+		on ra.one = c.one 
+			and ra.two = c.two
+			and ra.role_id in (
+				SELECT
+					ur.role_id
+				FROM
+					sys_user_role ur
+				WHERE
+					ur.user_id = #{userId}
+			)
+		<where>
+			1 = 1
+			<if test="one != null">
+				and c.one = #{one}
+			</if>
+			<if test="two != null">
+				and c.two = #{two}
+			</if>
+			<if test="three != null">
+				and c.three = #{three}
+			</if>
+		</where>
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.product.customer.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,4 +93,11 @@ public class CustomerController {
         
         return Result.success(null);
     }
+	
+	@RequestMapping("/customer/initTree")
+	public Result<List<Map<String, Object>>> initTree(CustomerParam customerParam){
+		SysUser sysUser = SecurityUtils.getLoginUser();
+        customerParam.setUserId(sysUser.getId());
+		return customerAPI.initTree(customerParam);
+	}
 }

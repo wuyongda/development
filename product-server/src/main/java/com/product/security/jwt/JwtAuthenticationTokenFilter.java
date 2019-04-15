@@ -31,17 +31,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
 		
 		if (StringUtils.isNotBlank(token) && JwtTokenUtils.validateToken(token)) {   //验证token格式是否正确
 			Claims claims = JwtTokenUtils.parseToken(token); // 解析token
-			
-			Long id = Long.valueOf(String.valueOf(claims.get(SecurityUtils.ID_PARAMETER)));
-			String name = String.valueOf(claims.get(SecurityUtils.NAME_PARAMETER));
-			String principal = String.valueOf(claims.get(SecurityUtils.USERNAME_PARAMETER)); // 登录名
-			String authorities = String.valueOf(claims.get(SecurityUtils.AUTHORITY_PARAMETER)); // 角色信息
-			
-			UsernamePasswordAuthenticationToken toekn = new UsernamePasswordAuthenticationToken(principal, null, getAuthoritie(authorities));
-			User loginUser = new User(id, name, principal, null, null);
-			toekn.setDetails(loginUser);
-			
-			SecurityContextHolder.getContext().setAuthentication(toekn);   // 将用户保存到SecurityContext
+			if(claims != null){
+				Long id = Long.valueOf(String.valueOf(claims.get(SecurityUtils.ID_PARAMETER)));
+				String name = String.valueOf(claims.get(SecurityUtils.NAME_PARAMETER));
+				String principal = String.valueOf(claims.get(SecurityUtils.USERNAME_PARAMETER)); // 登录名
+				String authorities = String.valueOf(claims.get(SecurityUtils.AUTHORITY_PARAMETER)); // 角色信息
+				
+				UsernamePasswordAuthenticationToken toekn = new UsernamePasswordAuthenticationToken(principal, null, getAuthoritie(authorities));
+				User loginUser = new User(id, name, principal, null, null);
+				toekn.setDetails(loginUser);
+				
+				SecurityContextHolder.getContext().setAuthentication(toekn);   // 将用户保存到SecurityContext
+			}
 	    }
 		
 		filterChain.doFilter(request, response);
