@@ -54,6 +54,12 @@ public class CustomerController {
         return customerAPI.findCustomersByAuthority(pageDto);
     }
     
+    @Transactional
+	@RequestMapping("/customer/save")
+    public Result<Long> save(Customer customer) {
+	    return customerAPI.save(customer);
+	}
+    
 	@Transactional
 	@RequestMapping("/customer/new")
     public Result<Long> newCustomer(@RequestBody CustomerDTO customerDto) {

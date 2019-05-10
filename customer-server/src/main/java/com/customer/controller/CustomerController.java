@@ -56,6 +56,13 @@ public class CustomerController implements CustomerAPI{
     }
     
     @Override
+	public Result<Long> save(@RequestBody Customer customer) {
+    	// 保存用户
+        customerService.save(customer);
+        return Result.success(customer.getId());
+	}
+    
+    @Override
     @Transactional
     public Result<Long> newCustomer(@RequestBody CustomerDTO customerDto) {
         // 保存用户

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charge.dao.SfMjjsTMapper">
+  <resultMap id="BaseResultMap" type="com.charge.bean.SfMjjsT">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+    <result column="cnq" jdbcType="VARCHAR" property="cnq" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sfmj" jdbcType="DECIMAL" property="sfmj" />
+    <result column="zdmj" jdbcType="DECIMAL" property="zdmj" />
+    <result column="cg" jdbcType="DECIMAL" property="cg" />
+    <result column="mjlb" jdbcType="VARCHAR" property="mjlb" />
+    <result column="djlb" jdbcType="VARCHAR" property="djlb" />
+    <result column="dj" jdbcType="DECIMAL" property="dj" />
+    <result column="ysje" jdbcType="DECIMAL" property="ysje" />
+    <result column="sfje" jdbcType="DECIMAL" property="sfje" />
+    <result column="qfje" jdbcType="DECIMAL" property="qfje" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sf_mjjs_t
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.charge.bean.SfMjjsT">
+    insert into sf_mjjs_t (id, customer_id, area_id, 
+      cnq, name, sfmj, zdmj, 
+      cg, mjlb, djlb, dj, 
+      ysje, sfje, qfje)
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, 
+      #{cnq,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sfmj,jdbcType=DECIMAL}, #{zdmj,jdbcType=DECIMAL}, 
+      #{cg,jdbcType=DECIMAL}, #{mjlb,jdbcType=VARCHAR}, #{djlb,jdbcType=VARCHAR}, #{dj,jdbcType=DECIMAL}, 
+      #{ysje,jdbcType=DECIMAL}, #{sfje,jdbcType=DECIMAL}, #{qfje,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.charge.bean.SfMjjsT">
+    update sf_mjjs_t
+    set customer_id = #{customerId,jdbcType=BIGINT},
+      area_id = #{areaId,jdbcType=BIGINT},
+      cnq = #{cnq,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sfmj = #{sfmj,jdbcType=DECIMAL},
+      zdmj = #{zdmj,jdbcType=DECIMAL},
+      cg = #{cg,jdbcType=DECIMAL},
+      mjlb = #{mjlb,jdbcType=VARCHAR},
+      djlb = #{djlb,jdbcType=VARCHAR},
+      dj = #{dj,jdbcType=DECIMAL},
+      ysje = #{ysje,jdbcType=DECIMAL},
+      sfje = #{sfje,jdbcType=DECIMAL},
+      qfje = #{qfje,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, customer_id, area_id, cnq, name, sfmj, zdmj, cg, mjlb, djlb, dj, ysje, 
+    sfje, qfje
+    from sf_mjjs_t
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, customer_id, area_id, cnq, name, sfmj, zdmj, cg, mjlb, djlb, dj, ysje, 
+    sfje, qfje
+    from sf_mjjs_t
+  </select>
+</mapper>

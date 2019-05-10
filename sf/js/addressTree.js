@@ -62,6 +62,10 @@
 			};
 			var setting = $.extend(true, defaultSetting, options);
 			zTreeObj = $.fn.zTree.init(obj, setting);
+		},
+		
+		dg: function(treeNode, param){
+			return method.dg(treeNode, param);
 		}
 	}
 })(jQuery);

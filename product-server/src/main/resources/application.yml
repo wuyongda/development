@@ -30,7 +30,7 @@ spring:
   connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 # mybatis
 mybatis:
- mapper-locations: classpath:mapper/*.xml
+ mapper-locations: classpath*:mapper/*.xml,classpath*:mapper/impl/*.xml
  typeAliasesPackage: com.product.*.dao
 # pagehelper\u5206\u9875\u63D2\u4EF6
 pagehelper:
@@ -51,5 +51,5 @@ hystrix:
    execution:
     isolation:
      thread:
-      timeoutInMilliseconds: 5000
+      timeoutInMilliseconds: 10000
   

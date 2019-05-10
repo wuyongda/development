@@ -41,10 +41,20 @@ public interface CustomerAPI {
     
     @RequestMapping("/customer/authority")
     Result<PageInfo<Customer>> findCustomersByAuthority(@RequestBody PageDTO<CustomerParam, Page<CustomerParam>> pageDto);
+    
     /**
      * 
      * 保存用户
      * @param customer 用户参数
+     * @return
+     */
+    @RequestMapping("/customer/save")
+    Result<Long> save(Customer customer);
+    
+    /**
+     * 
+     * 保存用户
+     * @param customerDto 用户参数
      * @return
      */
     @RequestMapping("/customer/new")
@@ -52,4 +62,6 @@ public interface CustomerAPI {
     
     @RequestMapping("/customer/initTree")
     public Result<List<Map<String, Object>>> initTree(@RequestBody CustomerParam param);
+
+	
 }
