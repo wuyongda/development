@@ -40,31 +40,13 @@
 					},
 					success: function(data) {
 						if (data.code == '0000') {
-							console.info(data.data)
 							var zNodes = data.data;
-							//initZNodes(zNodes, );
 							zTreeObj = $.fn.zTree.init($("#addressTree"), setting, zNodes);
 						}
 					}
 				});
 				
 			});
-			
-			function initZNodes(zNodes, sourceData) {
-				for (var i = 0; i < sourceData.length; i++) {
-					var zNode = sourceData[i].node;
-					
-					zNode["checked"] = sourceData[i].checked;
-					
-					if (sourceData[i].children.length > 0) {
-						zNode["children"] = [];
-						initZNodes(zNode.children, sourceData[i].children);
-					}
-					
-					zNodes.push(zNode);
-					
-				}
-			}
 			
 			/**
 			 * 保存菜单权限

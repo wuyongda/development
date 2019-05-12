@@ -1,11 +1,14 @@
 package com.customer.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.customer.api.CustomerAPI;
@@ -53,6 +56,13 @@ public class CustomerController implements CustomerAPI{
     }
     
     @Override
+	public Result<Long> save(@RequestBody Customer customer) {
+    	// 保存用户
+        customerService.save(customer);
+        return Result.success(customer.getId());
+	}
+    
+    @Override
     @Transactional
     public Result<Long> newCustomer(@RequestBody CustomerDTO customerDto) {
         // 保存用户
@@ -68,4 +78,9 @@ public class CustomerController implements CustomerAPI{
         return Result.success(customer.getId());
     }
 
+    @Override
+    public Result<List<Map<String, Object>>> initTree(@RequestBody CustomerParam param) {
+    	List<Map<String, Object>> listNode = customerService.initTree(param);
+    	return Result.success(listNode);
+    }
 }

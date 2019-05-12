@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.dao.impl.ISysParamMapper">
+  <resultMap id="BaseResultMap" type="com.system.bean.SysParam">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+  </resultMap>
+  
+  <select id="initTree" resultMap="com.system.dao.SysParamMapper.BaseResultMap">
+  	select max(id) id,name 
+  	from sys_param
+  	where parent_id = #{id}
+  	group by name
+  </select>
+  
+  <select id="findList" resultMap="com.system.dao.SysParamMapper.BaseResultMap">
+  	select * 
+  	from sys_param
+  	<where>
+  		<if test="name != null">
+  			name = #{name}
+  		</if>
+  	</where>
+  	order by year desc
+  </select>
+  
+  <select id="findParamByParentName" resultMap="com.system.dao.SysParamMapper.BaseResultMap">
+  	select c.*
+	from sys_param c
+	inner join sys_param p
+	on p.id = c.parent_id and p.name = #{name}
+	where 1 =1
+		<if test="cnq != null">
+			c.year = #{cnq}
+		</if> 
+	order by year desc
+  </select>
+  
+</mapper>

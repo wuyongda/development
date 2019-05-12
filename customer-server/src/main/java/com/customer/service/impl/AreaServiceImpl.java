@@ -1,5 +1,7 @@
 package com.customer.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class AreaServiceImpl implements IAreaService{
         return areaMapper.updateByPrimaryKey(area);
     }
 
-    
+	@Override
+	public List<Area> findAreas(Area area) {
+		return areaMapper.findAreas(area);
+	}
 
 }

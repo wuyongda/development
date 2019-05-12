@@ -1,6 +1,7 @@
 package com.customer.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.customer.bean.Customer;
 import com.customer.bean.CustomerParam;
@@ -34,5 +35,7 @@ public interface ICustomerService {
      * @return
      */
     List<Customer> findCustomersByAuthority(CustomerParam customerParam);
+
+	List<Map<String, Object>> initTree(CustomerParam param);
 
 }

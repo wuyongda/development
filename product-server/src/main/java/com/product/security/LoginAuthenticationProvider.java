@@ -32,7 +32,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider{
         	// 登录表单为空时，从token中获取用户信息
         	Authentication token = SecurityContextHolder.getContext().getAuthentication();
         	if (token!= null) {
-        		// 足够如果登录表单为空，且token中存在登录信息时，直接返回token中的登录信息
+        		// 如果登录表单为空，且token中存在登录信息时，直接返回token中的登录信息
 				return token;
 			}
         }

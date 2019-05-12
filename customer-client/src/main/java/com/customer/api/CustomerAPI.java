@@ -1,9 +1,13 @@
 package com.customer.api;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.customer.bean.Customer;
 import com.customer.bean.CustomerParam;
@@ -37,12 +41,27 @@ public interface CustomerAPI {
     
     @RequestMapping("/customer/authority")
     Result<PageInfo<Customer>> findCustomersByAuthority(@RequestBody PageDTO<CustomerParam, Page<CustomerParam>> pageDto);
+    
     /**
      * 
      * 保存用户
      * @param customer 用户参数
      * @return
      */
+    @RequestMapping("/customer/save")
+    Result<Long> save(Customer customer);
+    
+    /**
+     * 
+     * 保存用户
+     * @param customerDto 用户参数
+     * @return
+     */
     @RequestMapping("/customer/new")
     Result<Long> newCustomer(@RequestBody CustomerDTO customerDto);
+    
+    @RequestMapping("/customer/initTree")
+    public Result<List<Map<String, Object>>> initTree(@RequestBody CustomerParam param);
+
+	
 }

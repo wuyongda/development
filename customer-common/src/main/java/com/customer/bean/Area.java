@@ -28,7 +28,20 @@ public class Area {
      */
     private BigDecimal cg;
 
+    /**
+     * 热用户主键
+     */
     private Long customerId;
+
+    /**
+     * 面积类别
+     */
+    private String mjlb;
+
+    /**
+     * 单价类别
+     */
+    private String djlb;
 
     public Long getId() {
         return id;
@@ -76,5 +89,21 @@ public class Area {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public String getMjlb() {
+        return mjlb;
+    }
+
+    public void setMjlb(String mjlb) {
+        this.mjlb = mjlb == null ? null : mjlb.trim();
+    }
+
+    public String getDjlb() {
+        return djlb;
+    }
+
+    public void setDjlb(String djlb) {
+        this.djlb = djlb == null ? null : djlb.trim();
     }
 }

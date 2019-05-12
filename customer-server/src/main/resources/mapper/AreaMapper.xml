@@ -8,6 +8,8 @@
     <result column="zdmj" jdbcType="DECIMAL" property="zdmj" />
     <result column="cg" jdbcType="DECIMAL" property="cg" />
     <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="mjlb" jdbcType="VARCHAR" property="mjlb" />
+    <result column="djlb" jdbcType="VARCHAR" property="djlb" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from area
@@ -15,11 +17,11 @@
   </delete>
   <insert id="insert" parameterType="com.customer.bean.Area">
     insert into area (id, name, sfmj, 
-      zdmj, cg, customer_id
-      )
+      zdmj, cg, customer_id, 
+      mjlb, djlb)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sfmj,jdbcType=DECIMAL}, 
-      #{zdmj,jdbcType=DECIMAL}, #{cg,jdbcType=DECIMAL}, #{customerId,jdbcType=BIGINT}
-      )
+      #{zdmj,jdbcType=DECIMAL}, #{cg,jdbcType=DECIMAL}, #{customerId,jdbcType=BIGINT}, 
+      #{mjlb,jdbcType=VARCHAR}, #{djlb,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.customer.bean.Area">
     update area
@@ -27,16 +29,18 @@
       sfmj = #{sfmj,jdbcType=DECIMAL},
       zdmj = #{zdmj,jdbcType=DECIMAL},
       cg = #{cg,jdbcType=DECIMAL},
-      customer_id = #{customerId,jdbcType=BIGINT}
+      customer_id = #{customerId,jdbcType=BIGINT},
+      mjlb = #{mjlb,jdbcType=VARCHAR},
+      djlb = #{djlb,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, name, sfmj, zdmj, cg, customer_id
+    select id, name, sfmj, zdmj, cg, customer_id, mjlb, djlb
     from area
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, sfmj, zdmj, cg, customer_id
+    select id, name, sfmj, zdmj, cg, customer_id, mjlb, djlb
     from area
   </select>
 </mapper>
