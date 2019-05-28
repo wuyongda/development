@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.charge.bean.SfMjjsT;
 import com.charge.dao.impl.ISfMjjsTMapper;
+import com.charge.dto.SfJsDTO;
 import com.charge.service.ISfMjjsTService;
 import com.customer.bean.Area;
 import com.product.util.KeyGeneratorUtil;
@@ -31,6 +32,7 @@ public class SfMjjsTServiceImpl implements ISfMjjsTService{
 		Map<String, String> djlb = (Map<String, String>) map.get(SysParamEnum.单价类别);
 		
 		for(Area area : areaList){
+			validate(area);
 			mjjs = new SfMjjsT();
 			mjjs.setCnq(dqcnq);
 			mjjs.setAreaId(area.getId());
@@ -60,6 +62,12 @@ public class SfMjjsTServiceImpl implements ISfMjjsTService{
 				// 存档
 				sfMjjsTMapper.updateByPrimaryKey(mjjs);
 			}
+		}
+	}
+
+	private void validate(Area area) {
+		if(area.getDjlb() == null) {
+			throw new RuntimeException("未分配面积类别");
 		}
 	}
 
@@ -95,6 +103,38 @@ public class SfMjjsTServiceImpl implements ISfMjjsTService{
 		
 		// 将欠费结果保存到面积结算上
 		mjjs.setQfje(qfje);
+	}
+
+	@Override
+	public List<SfMjjsT> findSfmjjsT(Long customerId) {
+		return this.findSfmjjs(customerId, null);
+	}
+	
+	private List<SfMjjsT> findSfmjjs(Long customerId, String cnq) {
+		SfMjjsT mjjs = new SfMjjsT();
+		mjjs.setCustomerId(customerId);
+		mjjs.setCnq(cnq);
+		return this.findSfmjjs(mjjs);
+	}
+
+	private List<SfMjjsT> findSfmjjs(SfMjjsT mjjs) {
+		return null;
+	}
+
+	@Override
+	public List<SfJsDTO> findSfjsDTO(Long customerId) {
+		return this.findSfjsDTO(customerId, null);
+	}
+
+	private List<SfJsDTO> findSfjsDTO(Long customerId, String cnq) {
+		SfMjjsT mjjs = new SfMjjsT();
+		mjjs.setCustomerId(customerId);
+		mjjs.setCnq(cnq);
+		return this.findSfjsDTO(mjjs);
+	}
+
+	private List<SfJsDTO> findSfjsDTO(SfMjjsT mjjs) {
+		return sfMjjsTMapper.findSfjsDTO(mjjs);
 	}
 
 }

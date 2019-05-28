@@ -3,6 +3,7 @@ package com.system.dao.impl;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.system.bean.SysParam;
 import com.system.dao.SysParamMapper;
@@ -14,6 +15,6 @@ public interface ISysParamMapper extends SysParamMapper{
 
 	List<SysParam> initTree(Long id);
 
-	List<SysParam> findParamByParentName(String name, String cnq);
+	List<SysParam> findParamByParentName(@Param("name")String name, @Param("cnq")String cnq);
 
 }

@@ -23,6 +23,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.wyd</groupId>
+			<artifactId>product-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.wyd</groupId>
 			<artifactId>charge-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

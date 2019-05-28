@@ -25,30 +25,48 @@
 	</properties>
 
 	<dependencies>
+		<!-- security权限框架 -->
 		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-security</artifactId>
 	    </dependency>
+	    
+	    <!-- token工具包 -->
 	    <dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
 		</dependency>
+		
+		<!-- 产品工具包 -->
 		<dependency>
 			<groupId>com.wyd</groupId>
 			<artifactId>product-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.wyd</groupId>
-			<artifactId>customer-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
+		<!-- 系统参数工具包 -->
 		<dependency>
 			<groupId>com.wyd</groupId>
 			<artifactId>system-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- 热用户基础信息客户端 -->
+		<dependency>
+			<groupId>com.wyd</groupId>
+			<artifactId>customer-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- 收费客户端 -->
+		<dependency>
+			<groupId>com.wyd</groupId>
+			<artifactId>charge-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- eureka注册中心客户端 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>

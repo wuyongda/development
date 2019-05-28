@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.charge.dao.impl.ISfMjjsTMapper">
+  <resultMap id="SfjsDTOMap" type="com.charge.dto.SfJsDTO" >
+  	<result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="cnq" jdbcType="VARCHAR" property="cnq" />
+    <result column="ysje" jdbcType="DECIMAL" property="ysje" />
+    <result column="sfje" jdbcType="DECIMAL" property="sfje" />
+    <result column="qfje" jdbcType="DECIMAL" property="qfje" />
+  </resultMap>
   
   <select id="find" resultMap="com.charge.dao.SfMjjsTMapper.BaseResultMap">
   	select * 
@@ -13,5 +20,24 @@
   			and cnq = #{cnq}
   		</if>
   	</where>
+  </select>
+  
+  <select id="findSfjsDTO" resultMap="SfjsDTOMap">
+	select
+		cnq,
+		customer_id,
+		SUM(ysje) ysje,
+		SUM(sfje) sfje,
+		SUM(qfje) qfje
+	from sf_mjjs_t mjjs
+	<where>
+		<if test="cnq != null">
+			and cnq = #{cnq}
+		</if>
+		<if test="customerId != null">
+			and customer_id = #{customerId}
+		</if>
+	</where>
+	GROUP BY cnq,customer_id
   </select>
 </mapper>

@@ -41,7 +41,7 @@ pagehelper:
 eureka:
  client:
   service-url:
-   defaultZone: http://localhost:8761/eureka/
+   defaultZone: http://192.168.7.135:8761/eureka/
 logging:
  level:
   com.charge.dao : debug
